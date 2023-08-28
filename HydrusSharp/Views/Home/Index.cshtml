@@ -50,12 +50,12 @@
                                 <button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bind="text: name, attr: { id: name }"></button>
                                 <div class="dropdown-menu">
                                     <!-- ko foreach: typeof(items) !== 'undefined' ? items : [] -->
-                                    <button type="button" class="dropdown-item" data-bind="text: $data.name, click: () => { $root.loadHashedJsonDump($data.hash()); }"></button>
+                                    <button type="button" class="dropdown-item" data-bind="text: $data.name, click: () => { $root.loadHashedJsonDumpAsync($data.hash()); }"></button>
                                     <!-- /ko -->
                                 </div>
                             </li>
                             <li class="nav-item" data-bind="visible: serialisableType() === 107">
-                                <a href="#" class="nav-link" data-bind="text: name, click: () => { $root.loadHashedJsonDump($data.hash()); }"></a>
+                                <a href="#" class="nav-link" data-bind="text: name, click: () => { $root.loadHashedJsonDumpAsync($data.hash()); }"></a>
                             </li>
                             <!-- /ko -->
                         </ul>
@@ -67,10 +67,14 @@
     <!-- Sidebar -->
     <aside class="d-flex flex-column flex-shrink-0 p-3 bg-body-secondary" data-bind="visible: hashedJsonDump() !== null, with: hashedJsonDump()" style="width: 300px">
         <div data-bind="with: managementController().fileSearchContext">
-            <ul>
-                <!-- ko foreach: searchedTags -->
-                <li data-bind="visible: searchType() === 0, text: tag"></li>
-                <li data-bind="visible: searchType() !== 0, text: friendlySearchType"></li>
+            <ul class="list-group">
+                <!-- ko foreach: predicates -->
+                <li class="list-group-item">
+                    <span data-bind="attr: { class: searchType() === 0 ? '' : 'fst-italic' }">
+                        <span data-bind="visible: mustBeTrue() != true">-</span>
+                        <span data-bind="text: friendlySearchType"></span>
+                    </span>
+                </li>
                 <!-- /ko -->
             </ul>
         </div>

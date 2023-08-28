@@ -1,8 +1,12 @@
 var Index = (function () {
     function Index() {
+        var _this = this;
         this.sessions = ko.observableArray([]);
         this.currentSession = ko.observable(null);
         this.hashedJsonDump = ko.observable(null);
+        this.sessions.subscribe(function () {
+            _this.selectFirstPageAsync();
+        });
     }
     Index.prototype.initialiseAsync = function () {
         var deferred = $.Deferred();
@@ -15,7 +19,23 @@ var Index = (function () {
         });
         return deferred.promise();
     };
-    Index.prototype.loadHashedJsonDump = function (hash) {
+    Index.prototype.selectFirstPageAsync = function () {
+        var deferred = $.Deferred();
+        var sessions = this.sessions();
+        var firstItem = sessions[0].notebook().items().find(function (item) { return item.serialisableType() === 107; });
+        if (typeof (firstItem) === "undefined") {
+            firstItem = sessions[0].notebook().items()[0].items().find(function (item) { return item.serialisableType() === 107; });
+        }
+        this.loadHashedJsonDumpAsync(firstItem.hash())
+            .then(function () {
+            deferred.resolve();
+        })
+            .fail(function () {
+            deferred.reject();
+        });
+        return deferred.promise();
+    };
+    Index.prototype.loadHashedJsonDumpAsync = function (hash) {
         var _this = this;
         var deferred = $.Deferred();
         ClientProvider.getHashedJsonDump(hash)
@@ -34,6 +54,11 @@ var Index = (function () {
         ClientProvider.getSessionsAsync()
             .then(function (sessions) {
             _this.sessions(sessions);
+            if (sessions.length === 0) {
+                deferred.resolve();
+                return;
+            }
+            _this.currentSession(sessions[0]);
             deferred.resolve();
         })
             .fail(function () {

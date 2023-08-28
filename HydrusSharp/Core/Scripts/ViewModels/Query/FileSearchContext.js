@@ -6,9 +6,19 @@ var FileSearchContext = (function () {
         var locationContextWrapper = contexts[0];
         var locationContext = locationContextWrapper[2];
         var tagContext = contexts[1];
-        var searchedTags = contexts[3];
+        var searchedPredicates = contexts[3];
         this.locationContexts = ko.observableArray(locationContext[0]);
-        this.searchedTags = ko.observableArray(searchedTags.map(function (searchedTag) { return new SearchPredicate(searchedTag); }));
+        var predicates = searchedPredicates.map(function (searchedPredicate) { return new SearchPredicate(searchedPredicate); });
+        var sortedPredicates = predicates.sort(function (previousPredicate, nextPredicate) {
+            if (previousPredicate.searchType() === 0 && nextPredicate.searchType() !== 0) {
+                return -1;
+            }
+            else if (previousPredicate.searchType() !== 0 && nextPredicate.searchType() === 0) {
+                return 1;
+            }
+            return previousPredicate.friendlySearchType() > nextPredicate.friendlySearchType() ? 1 : -1;
+        });
+        this.predicates = ko.observableArray(sortedPredicates);
     }
     return FileSearchContext;
 }());
