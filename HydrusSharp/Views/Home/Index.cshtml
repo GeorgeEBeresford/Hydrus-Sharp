@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    <section>
+        <div class="row">
+            <!-- Session selector -->
+            <div class="col-sm-3">
+                <div class="input-group">
+                    <label class="input-group-text" for="ddb_Sessions">Session</label>
+                    <select class="form-select" data-bind="options: sessions, optionsText: (session) => `${session.name()} (${session.lastModifiedOn()})`, value: currentSession"></select>
+                </div>
+            </div>
+            <!-- Session information -->
+            <div class="col-sm-9" data-bind="visible: hashedJsonDump() !== null, with: hashedJsonDump()">
+                <ul class="list-group list-group-horizontal" data-bind="with: managementController">
+                    <li class="list-group-item" style="padding: 6px 16px">
+                        <strong data-bind="text: name"></strong>
+                    </li>
+                    <li class="list-group-item" data-bind="with: mediaSort" style="padding: 6px 16px">
+                        Order by
+                        <span data-bind="visible: sortBy() !== 'system', text: '\'' + namespaces().join('-') + '\''"></span>
+                        <span data-bind="visible: sortBy() === 'system', text: '\'' + friendlySystemSortType() + '\''"></span>
+                        in
+                        <span data-bind="text: ascending() ? 'ASC' : 'DESC'"></span>
+                        order
+                    </li>
+                    <li class="list-group-item" data-bind="with: mediaCollect, visible: mediaCollect().namespaces().length !== 0" style="padding: 6px 16px">
+                        Collect by
+                        <span data-bind="text: namespaces().join('-')"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <!-- Page selector -->
+    <section data-bind="visible: currentSession() !== null, with: currentSession">
+        <div data-bind="with: notebook">
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">HydrusSharp</a>
+                    <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#Pages" aria-controls="Pages" aria-expanded="false" aria-label="Toggle pages">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="Pages" class="collapse navbar-collapse">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <!-- ko foreach: items -->
+                            <li class="nav-item dropdown" data-bind="visible: serialisableType() === 106">
+                                <button type="button" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" data-bind="text: name, attr: { id: name }"></button>
+                                <div class="dropdown-menu">
+                                    <!-- ko foreach: typeof(items) !== 'undefined' ? items : [] -->
+                                    <button type="button" class="dropdown-item" data-bind="text: $data.name, click: () => { $root.loadHashedJsonDump($data.hash()); }"></button>
+                                    <!-- /ko -->
+                                </div>
+                            </li>
+                            <li class="nav-item" data-bind="visible: serialisableType() === 107">
+                                <a href="#" class="nav-link" data-bind="text: name, click: () => { $root.loadHashedJsonDump($data.hash()); }"></a>
+                            </li>
+                            <!-- /ko -->
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </section>
+    <!-- Sidebar -->
+    <aside class="d-flex flex-column flex-shrink-0 p-3 bg-body-secondary" data-bind="visible: hashedJsonDump() !== null, with: hashedJsonDump()" style="width: 300px">
+        <div data-bind="with: managementController().fileSearchContext">
+            <ul>
+                <!-- ko foreach: searchedTags -->
+                <li data-bind="visible: searchType() === 0, text: tag"></li>
+                <li data-bind="visible: searchType() !== 0, text: friendlySearchType"></li>
+                <!-- /ko -->
+            </ul>
+        </div>
+    </aside>
+</main>
+
+@section scripts {
+
+    @Scripts.Render("~/bundles/scripts/index")
+}

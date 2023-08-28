@@ -1,0 +1,21 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+
+    @Styles.Render("~/bundles/styles/common")
+</head>
+<body>
+    @RenderBody()
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.5.0/knockout-min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@("@")popperjs/core@2" crossorigin="anonymous"></script>
+    @Scripts.Render("~/scripts/bootstrap")
+    @Scripts.Render("~/bundles/scripts/common")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

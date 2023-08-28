@@ -1,0 +1,16 @@
+# User-specific files
+*.user
+*.suo
+
+# Build results
+bin/
+obj/
+
+# Visual Studio 2015
+.vs/
+
+# Packages
+packages/
+
+# Tests
+TestResults/

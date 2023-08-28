@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "ES6",
+    "lib": [ "ES2017", "DOM" ],
+    "removeComments": true,
+    "sourceMap": true
+  },
+  "compileOnSave": true,
+  "include": ["Core/Scripts/**/*"]
+}
