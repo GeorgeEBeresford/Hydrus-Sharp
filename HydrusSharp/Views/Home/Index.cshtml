@@ -65,7 +65,7 @@
         </div>
     </section>
     <!-- Sidebar -->
-    <aside class="d-flex flex-column flex-shrink-0 p-3 bg-body-secondary" data-bind="visible: hashedJsonDump() !== null, with: hashedJsonDump()" style="width: 300px">
+    <aside class="d-flex flex-column flex-shrink-0 bg-body-secondary sidebar" data-bind="visible: hashedJsonDump() !== null, with: hashedJsonDump()">
         <div data-bind="with: managementController().fileSearchContext">
             <ul class="list-group">
                 <!-- ko foreach: predicates -->
@@ -79,6 +79,21 @@
             </ul>
         </div>
     </aside>
+    <!-- Returned media -->
+    <section class="d-flex flex-column flex-shrink-0 p-3 searchResults">
+        <ol class="d-flex flex-row flex-wrap list-unstyled">
+            <!-- ko foreach: fileInfos -->
+            <li>
+                <figure class="figure">
+                    <div class="figure-img img-thumbnail d-flex flex-column justify-content-around" data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; height: ${$root.thumbnailHeight()}px;` }">
+                        <img class="flex-grow-0 text-center fs-1 lh-lg bg-danger-subtle" data-bind="attr: { srcset: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=true` }" style="width: 100%" alt="Missing Image" />
+                    </div>
+                    <figcaption class="figure-caption" data-bind="text: width() + 'x' + height()"></figcaption>
+                </figure>
+            </li>
+            <!-- /ko -->
+        </ol>
+    </section>
 </main>
 
 @section scripts {

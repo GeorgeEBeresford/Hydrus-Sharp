@@ -2,6 +2,7 @@
 using HydrusSharp.Enums;
 using HydrusSharp.Models.Client;
 using HydrusSharp.Models.ViewModel;
+using HydrusSharp.Providers;
 using HydrusSharp.Repositories;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,21 +13,18 @@ namespace HydrusSharp.Controllers
     public class ClientController : Controller
     {
         private ClientDbContext DbContext { get; set; }
-        private OptionRepository OptionRepository { get; set; }
-        private JsonDumpRepository JsonDumpRepository { get; set; }
 
         public ClientController()
         {
             DbContext = new ClientDbContext();
-            OptionRepository = new OptionRepository(DbContext);
-            JsonDumpRepository = new JsonDumpRepository(DbContext);
         }
 
         [HttpGet]
         [ActionName("JsonDumps")]
         public JsonResult GetJsonDumps()
         {
-            IEnumerable<JsonDump> jsonDumps = JsonDumpRepository.GetJsonDumps();
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            IEnumerable<JsonDump> jsonDumps = jsonDumpRepository.GetJsonDumps();
 
             return Json(ResultViewModel.Success(jsonDumps), JsonRequestBehavior.AllowGet);
         }
@@ -35,26 +33,18 @@ namespace HydrusSharp.Controllers
         [ActionName("Sessions")]
         public JsonResult GetSessions()
         {
-            IEnumerable<NamedJsonDump> sessions = JsonDumpRepository.GetNamedJsonDumps()
-                .Where(jsonDump => jsonDump.DumpType == SerialisableType.GuiSessionContainer);
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            IEnumerable<NamedJsonDump> sessions = jsonDumpRepository.GetSessions();
 
-            IEnumerable<NamedJsonDump> orderedSessions = sessions
-                .OrderByDescending(jsonDump => jsonDump.DumpName != "exit session" && jsonDump.DumpName != "last session")
-                .ThenBy(jsonDump => jsonDump.DumpName)
-                .ThenByDescending(jsonDump => jsonDump.Timestamp);
-
-            IEnumerable<NamedJsonDump> latestSessions = orderedSessions
-                .GroupBy(jsonDump => jsonDump.DumpName)
-                .Select(grouping => grouping.First());
-
-            return Json(ResultViewModel.Success(latestSessions), JsonRequestBehavior.AllowGet);
+            return Json(ResultViewModel.Success(sessions), JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         [ActionName("HashedJsonDumps")]
         public JsonResult GetHashedJsonDumps()
         {
-            IEnumerable<HashedJsonDump> jsonDump = JsonDumpRepository.GetHashedJsonDumps();
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            IEnumerable<HashedJsonDump> jsonDump = jsonDumpRepository.GetHashedJsonDumps();
 
             return Json(ResultViewModel.Success(jsonDump), JsonRequestBehavior.AllowGet);
         }
@@ -63,9 +53,38 @@ namespace HydrusSharp.Controllers
         [ActionName("HashedJsonDump")]
         public JsonResult GetHashedJsonDumps(string hash)
         {
-            HashedJsonDump jsonDump = JsonDumpRepository.GetHashedJsonDump(hash);
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            HashedJsonDump jsonDump = jsonDumpRepository.GetHashedJsonDump(hash);
 
             return Json(ResultViewModel.Success(jsonDump), JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        [ActionName("MatchingFileInfo")]
+        public JsonResult GetMatchingFileInfo(MediaCollectViewModel collect, MediaSortViewModel sort, SearchPredicateViewModel[] filters, int? skip, int? take)
+        {
+            FileRepository fileRepository = new FileRepository(DbContext);
+            IEnumerable<FileInfo> fileInfos = fileRepository.GetFileInfos(collect, sort, filters);
+
+            if (skip.HasValue)
+            {
+                fileInfos = fileInfos.Skip(skip.Value);
+            }
+
+            if (take.HasValue)
+            {
+                fileInfos = fileInfos.Take(take.Value);
+            }
+
+            return Json(ResultViewModel.Success(fileInfos));
+        }
+
+        [HttpGet]
+        [ActionName("Option")]
+        public JsonResult GetOption(string optionName)
+        {
+            OptionRepository optionRepository = new OptionRepository(DbContext);
+            return Json(ResultViewModel.Success(optionRepository.GetOption(optionName)), JsonRequestBehavior.AllowGet);
         }
     }
 }

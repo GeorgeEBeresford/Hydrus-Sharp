@@ -26,4 +26,14 @@ class ManagementController {
         this.mediaCollect = ko.observable(new MediaCollect(options[1]));
         this.fileSearchContext = ko.observable(new FileSearchContext(options[2]));
     }
+
+    public toJson(): any {
+
+        return {
+
+            Collect: this.mediaCollect().toJson(),
+            Sort: this.mediaSort().toJson(),
+            Predicates: this.fileSearchContext().predicates().map(predicate => predicate.toJson())
+        };
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using HydrusSharp.DbContexts;
+using HydrusSharp.Enums;
 using HydrusSharp.Models.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
@@ -23,11 +24,21 @@ namespace HydrusSharp.Repositories
             return jsonDumps;
         }
 
-        public IEnumerable<NamedJsonDump> GetNamedJsonDumps()
+        public IEnumerable<NamedJsonDump> GetSessions()
         {
-            IEnumerable<NamedJsonDump> jsonDumps = ClientDbContext.NamedJsonDumps;
+            IEnumerable<NamedJsonDump> sessions = ClientDbContext.NamedJsonDumps
+                .Where(jsonDump => jsonDump.DumpTypeId == (int)SerialisableType.GuiSessionContainer);
 
-            return jsonDumps;
+            IEnumerable<NamedJsonDump> orderedSessions = sessions
+                .OrderByDescending(jsonDump => jsonDump.DumpName != "exit session" && jsonDump.DumpName != "last session")
+                .ThenBy(jsonDump => jsonDump.DumpName)
+                .ThenByDescending(jsonDump => jsonDump.Timestamp);
+
+            IEnumerable<NamedJsonDump> latestSessions = orderedSessions
+                .GroupBy(jsonDump => jsonDump.DumpName)
+                .Select(grouping => grouping.First());
+
+            return latestSessions;
         }
 
         public IEnumerable<HashedJsonDump> GetHashedJsonDumps()

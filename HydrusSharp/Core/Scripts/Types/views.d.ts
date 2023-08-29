@@ -20,3 +20,16 @@ interface IHashedJsonDump {
     Dump: string;
     HashedString: string;
 }
+
+interface IFileInfo {
+
+    HashId: number;
+    Size: number;
+    MimeType: number;
+    Width: number
+    Height: number;
+    Duration: number;
+    FrameCount: number;
+    HasAudio: boolean;
+    WordCount: number;
+}

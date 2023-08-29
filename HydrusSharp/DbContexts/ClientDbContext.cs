@@ -9,6 +9,7 @@ namespace HydrusSharp.DbContexts
         public DbSet<JsonDump> JsonDumps { get; set; }
 		public DbSet<NamedJsonDump> NamedJsonDumps { get; set; }
 		public DbSet<HashedJsonDump> HashedJsonDumps { get; set; }
+		public DbSet<FileInfo> FileInfos { get; set; }
 
         public ClientDbContext(): base("Client") { 
 

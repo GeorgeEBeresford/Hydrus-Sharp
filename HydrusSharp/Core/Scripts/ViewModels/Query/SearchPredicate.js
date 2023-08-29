@@ -9,6 +9,13 @@ var SearchPredicate = (function () {
             return _this.prettifySearchData();
         });
     }
+    SearchPredicate.prototype.toJson = function () {
+        return {
+            SearchType: this.searchType(),
+            SearchData: this.searchData(),
+            MustBeTrue: this.mustBeTrue()
+        };
+    };
     SearchPredicate.prototype.prettifySearchData = function () {
         if (this.searchType() === 0) {
             return this.searchData()[0];

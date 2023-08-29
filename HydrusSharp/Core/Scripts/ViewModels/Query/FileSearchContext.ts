@@ -17,25 +17,24 @@ class FileSearchContext {
 
         this.locationContexts = ko.observableArray(locationContext[0]);
 
-            const predicates = searchedPredicates.map(searchedPredicate => new SearchPredicate(searchedPredicate));
-            const sortedPredicates = predicates.sort((previousPredicate, nextPredicate) => {
+        const predicates = searchedPredicates.map(searchedPredicate => new SearchPredicate(searchedPredicate));
+        const sortedPredicates = predicates.sort((previousPredicate, nextPredicate) => {
 
-                // System tags should come last
-                if (previousPredicate.searchType() === 0 && nextPredicate.searchType() !== 0) {
+            // System tags should come last
+            if (previousPredicate.searchType() === 0 && nextPredicate.searchType() !== 0) {
 
-                    return -1;
-                }
-                else if (previousPredicate.searchType() !== 0 && nextPredicate.searchType() === 0) {
+                return -1;
+            }
+            else if (previousPredicate.searchType() !== 0 && nextPredicate.searchType() === 0) {
 
-                    return 1;
-                }
+                return 1;
+            }
 
-                // Sort by name
-                return previousPredicate.friendlySearchType() > nextPredicate.friendlySearchType() ? 1 : -1;
-            });
+            // Sort by name
+            return previousPredicate.friendlySearchType() > nextPredicate.friendlySearchType() ? 1 : -1;
+        });
 
-            this.predicates = ko.observableArray(sortedPredicates);
-    }
+        this.predicates = ko.observableArray(sortedPredicates);
 
         //this.tagContexts = ko.observableArray(tagContext[2][0]);
 

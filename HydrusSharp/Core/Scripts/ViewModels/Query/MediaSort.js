@@ -7,7 +7,7 @@ var MediaSort = (function () {
         this.sortBy = ko.observable(sortBy[0]);
         if (this.sortBy() !== "system") {
             this.namespaces = ko.observableArray(sortBy[1][0]);
-            this.systemSortType = ko.observable(0);
+            this.systemSortType = ko.observable(null);
         }
         else {
             this.namespaces = ko.observableArray([]);
@@ -43,6 +43,12 @@ var MediaSort = (function () {
             }
         });
     }
+    MediaSort.prototype.toJson = function () {
+        return {
+            Namespaces: this.namespaces(),
+            SystemSortType: this.systemSortType()
+        };
+    };
     return MediaSort;
 }());
 //# sourceMappingURL=MediaSort.js.map

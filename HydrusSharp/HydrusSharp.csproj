@@ -144,7 +144,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="DbContexts\ClientDbContext.cs" />
+    <Compile Include="DbContexts\ClientMasterDbContext.cs" />
     <Compile Include="Enums\BandwidthType.cs" />
     <Compile Include="Enums\ContentMerge.cs" />
     <Compile Include="Enums\ContentStatus.cs" />
@@ -158,19 +160,29 @@
     <Compile Include="Enums\Hydrus.cs" />
     <Compile Include="Enums\ImportFolderType.cs" />
     <Compile Include="Enums\Maintenance.cs" />
+    <Compile Include="Enums\MimeType.cs" />
     <Compile Include="Enums\PermissionAction.cs" />
+    <Compile Include="Enums\PredicateType.cs" />
     <Compile Include="Enums\SerialisableType.cs" />
+    <Compile Include="Enums\SortFilesBy.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientMaster\Hash.cs" />
+    <Compile Include="Models\Client\FileInfo.cs" />
     <Compile Include="Models\Client\HashedJsonDump.cs" />
     <Compile Include="Models\Client\JsonDump.cs" />
     <Compile Include="Models\Client\NamedJsonDump.cs" />
     <Compile Include="Models\Client\OptionCollection.cs" />
+    <Compile Include="Models\ViewModel\MediaCollectViewModel.cs" />
+    <Compile Include="Models\ViewModel\MediaSortViewModel.cs" />
+    <Compile Include="Models\ViewModel\SearchPredicateViewModel.cs" />
     <Compile Include="Models\ViewModel\ResultViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\FileRepository.cs" />
+    <Compile Include="Providers\HashRepository.cs" />
     <Compile Include="Providers\JsonDumpRepository.cs" />
-    <Compile Include="Providers\OptionService.cs" />
+    <Compile Include="Providers\OptionRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Core\Scripts\Index.ts" />
@@ -178,6 +190,12 @@
     <Content Include="Core\Scripts\Common\bootstrap.bundle.min.js" />
     <Content Include="Core\Styles\bootstrap.css" />
     <Content Include="Core\Styles\bootstrap.min.css" />
+    <Content Include="Core\Styles\Styles.css">
+      <DependentUpon>Styles.scss</DependentUpon>
+    </Content>
+    <Content Include="Core\Styles\Styles.min.css">
+      <DependentUpon>Styles.css</DependentUpon>
+    </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -195,6 +213,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <TypeScriptCompile Include="Core\Scripts\Providers\ClientProvider.ts" />
     <TypeScriptCompile Include="Core\Scripts\Types\knockout.d.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\FileInfo.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\Query\FileSearchContext.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\GuiSessionContainerPageNotebook.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\GuiSessionContainerPageSingle.ts" />
@@ -216,6 +235,11 @@
     <Content Include="Core\Styles\bootstrap.min.css.map" />
     <Content Include="Core\Styles\Modules\_SideBar.scss" />
     <Content Include="Core\Styles\Styles.scss" />
+    <None Include="compilerconfig.json" />
+    <None Include="compilerconfig.json.defaults">
+      <DependentUpon>compilerconfig.json</DependentUpon>
+    </None>
+    <Content Include="Core\Styles\Modules\_SearchResults.scss" />
     <None Include="packages.config" />
     <Content Include="tsconfig.json" />
   </ItemGroup>

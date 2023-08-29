@@ -21,7 +21,7 @@ class MediaSort {
         if (this.sortBy() !== "system") {
 
             this.namespaces = ko.observableArray(sortBy[1][0]);
-            this.systemSortType = ko.observable(0);
+            this.systemSortType = ko.observable(null);
         }
         else {
 
@@ -63,5 +63,14 @@ class MediaSort {
                 case 20: return "Hash";
             }
         })
+    }
+
+    public toJson(): any {
+
+        return {
+
+            Namespaces: this.namespaces(),
+            SystemSortType: this.systemSortType()
+        };
     }
 }

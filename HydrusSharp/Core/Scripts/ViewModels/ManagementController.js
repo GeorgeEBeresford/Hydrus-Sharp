@@ -10,6 +10,13 @@ var ManagementController = (function () {
         this.mediaCollect = ko.observable(new MediaCollect(options[1]));
         this.fileSearchContext = ko.observable(new FileSearchContext(options[2]));
     }
+    ManagementController.prototype.toJson = function () {
+        return {
+            Collect: this.mediaCollect().toJson(),
+            Sort: this.mediaSort().toJson(),
+            Predicates: this.fileSearchContext().predicates().map(function (predicate) { return predicate.toJson(); })
+        };
+    };
     return ManagementController;
 }());
 //# sourceMappingURL=ManagementController.js.map

@@ -45,6 +45,16 @@ class SearchPredicate {
         });
     }
 
+    public toJson(): any {
+
+        return {
+
+            SearchType: this.searchType(),
+            SearchData: this.searchData(),
+            MustBeTrue: this.mustBeTrue()
+        };
+    }
+
     private prettifySearchData(): string {
 
         if (this.searchType() === 0) {

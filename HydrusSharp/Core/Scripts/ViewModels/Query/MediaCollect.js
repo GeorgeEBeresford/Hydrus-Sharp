@@ -5,6 +5,11 @@ var MediaCollect = (function () {
         var collectBy = properties[2];
         this.namespaces = ko.observableArray(collectBy[0]);
     }
+    MediaCollect.prototype.toJson = function () {
+        return {
+            namespaces: this.namespaces()
+        };
+    };
     return MediaCollect;
 }());
 //# sourceMappingURL=MediaCollect.js.map

@@ -10,4 +10,12 @@ class MediaCollect {
 
         this.namespaces = ko.observableArray(collectBy[0]);
     }
+
+    public toJson(): any {
+
+        return {
+
+            namespaces: this.namespaces()
+        };
+    }
 }

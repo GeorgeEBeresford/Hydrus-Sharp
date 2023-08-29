@@ -4,13 +4,19 @@ var Index = (function () {
         this.sessions = ko.observableArray([]);
         this.currentSession = ko.observable(null);
         this.hashedJsonDump = ko.observable(null);
+        this.fileInfos = ko.observableArray([]);
+        this.thumbnailWidth = ko.observable(0);
+        this.thumbnailHeight = ko.observable(0);
         this.sessions.subscribe(function () {
             _this.selectFirstPageAsync();
+        });
+        this.hashedJsonDump.subscribe(function () {
+            _this.searchForMatchingMedia();
         });
     }
     Index.prototype.initialiseAsync = function () {
         var deferred = $.Deferred();
-        this.refreshSessionsAsync()
+        $.when(this.initialiseOptionsAsync(), this.refreshSessionsAsync())
             .then(function () {
             deferred.resolve();
         })
@@ -38,9 +44,38 @@ var Index = (function () {
     Index.prototype.loadHashedJsonDumpAsync = function (hash) {
         var _this = this;
         var deferred = $.Deferred();
-        ClientProvider.getHashedJsonDump(hash)
+        ClientProvider.getHashedJsonDumpAsync(hash)
             .then(function (hashedJsonDump) {
             _this.hashedJsonDump(hashedJsonDump);
+            deferred.resolve();
+        })
+            .fail(function () {
+            deferred.reject();
+        });
+        return deferred.promise();
+    };
+    Index.prototype.searchForMatchingMedia = function () {
+        var _this = this;
+        var deferred = $.Deferred();
+        var managementController = this.hashedJsonDump().managementController();
+        ClientProvider.getMatchingFileInfoAsync(managementController.mediaCollect(), managementController.mediaSort(), managementController.fileSearchContext().predicates(), 0, 20)
+            .then(function (fileInfos) {
+            _this.fileInfos(fileInfos);
+            deferred.resolve();
+        })
+            .fail(function () {
+            deferred.reject();
+        });
+        return deferred.promise();
+    };
+    Index.prototype.initialiseOptionsAsync = function () {
+        var _this = this;
+        var deferred = $.Deferred();
+        ClientProvider.getOptionAsync("thumbnail_dimensions")
+            .then(function (thumbnailDimensions) {
+            var dimensions = thumbnailDimensions.split("\n");
+            _this.thumbnailWidth(+dimensions[0]);
+            _this.thumbnailHeight(+dimensions[1]);
             deferred.resolve();
         })
             .fail(function () {
