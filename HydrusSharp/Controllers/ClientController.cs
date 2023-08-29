@@ -12,18 +12,23 @@ namespace HydrusSharp.Controllers
 {
     public class ClientController : Controller
     {
-        private ClientDbContext DbContext { get; set; }
+        private ClientDbContext ClientDbContext { get; set; }
+        private ClientMasterDbContext ClientMasterDbContext { get; set; }
+        private ClientMappingsDbContext ClientMappingsDbContext { get; set; }
+
 
         public ClientController()
         {
-            DbContext = new ClientDbContext();
+            ClientDbContext = new ClientDbContext();
+            ClientMasterDbContext = new ClientMasterDbContext();
+            ClientMappingsDbContext = new ClientMappingsDbContext();
         }
 
         [HttpGet]
         [ActionName("JsonDumps")]
         public JsonResult GetJsonDumps()
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
             IEnumerable<JsonDump> jsonDumps = jsonDumpRepository.GetJsonDumps();
 
             return Json(ResultViewModel.Success(jsonDumps), JsonRequestBehavior.AllowGet);
@@ -33,7 +38,7 @@ namespace HydrusSharp.Controllers
         [ActionName("Sessions")]
         public JsonResult GetSessions()
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
             IEnumerable<NamedJsonDump> sessions = jsonDumpRepository.GetSessions();
 
             return Json(ResultViewModel.Success(sessions), JsonRequestBehavior.AllowGet);
@@ -43,7 +48,7 @@ namespace HydrusSharp.Controllers
         [ActionName("HashedJsonDumps")]
         public JsonResult GetHashedJsonDumps()
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
             IEnumerable<HashedJsonDump> jsonDump = jsonDumpRepository.GetHashedJsonDumps();
 
             return Json(ResultViewModel.Success(jsonDump), JsonRequestBehavior.AllowGet);
@@ -53,7 +58,7 @@ namespace HydrusSharp.Controllers
         [ActionName("HashedJsonDump")]
         public JsonResult GetHashedJsonDumps(string hash)
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(DbContext);
+            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
             HashedJsonDump jsonDump = jsonDumpRepository.GetHashedJsonDump(hash);
 
             return Json(ResultViewModel.Success(jsonDump), JsonRequestBehavior.AllowGet);
@@ -63,7 +68,7 @@ namespace HydrusSharp.Controllers
         [ActionName("MatchingFileInfo")]
         public JsonResult GetMatchingFileInfo(MediaCollectViewModel collect, MediaSortViewModel sort, SearchPredicateViewModel[] filters, int? skip, int? take)
         {
-            FileRepository fileRepository = new FileRepository(DbContext);
+            FileRepository fileRepository = new FileRepository(ClientDbContext, ClientMasterDbContext, ClientMappingsDbContext);
             IEnumerable<FileInfo> fileInfos = fileRepository.GetFileInfos(collect, sort, filters);
 
             if (skip.HasValue)
@@ -83,7 +88,7 @@ namespace HydrusSharp.Controllers
         [ActionName("Option")]
         public JsonResult GetOption(string optionName)
         {
-            OptionRepository optionRepository = new OptionRepository(DbContext);
+            OptionRepository optionRepository = new OptionRepository(ClientDbContext);
             return Json(ResultViewModel.Success(optionRepository.GetOption(optionName)), JsonRequestBehavior.AllowGet);
         }
     }

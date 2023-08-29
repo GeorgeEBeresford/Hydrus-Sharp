@@ -48,7 +48,7 @@ class ClientProvider {
 
             collect: collect.toJson(),
             sort: sort.toJson(),
-            predicates: predicates.map(predicate => predicate.toJson()),
+            filters: predicates.map(predicate => predicate.toJson()),
             skip: skip,
             take: take
         };

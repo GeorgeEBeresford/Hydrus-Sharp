@@ -32,7 +32,7 @@ var ClientProvider = (function () {
         var payload = {
             collect: collect.toJson(),
             sort: sort.toJson(),
-            predicates: predicates.map(function (predicate) { return predicate.toJson(); }),
+            filters: predicates.map(function (predicate) { return predicate.toJson(); }),
             skip: skip,
             take: take
         };

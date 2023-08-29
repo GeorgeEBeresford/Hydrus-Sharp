@@ -19,14 +19,14 @@ namespace HydrusSharp.Repositories
         [TestMethod]
         public IEnumerable<JsonDump> GetJsonDumps()
         {
-            IEnumerable<JsonDump> jsonDumps = ClientDbContext.JsonDumps;
+            IQueryable<JsonDump> jsonDumps = ClientDbContext.JsonDumps;
 
             return jsonDumps;
         }
 
         public IEnumerable<NamedJsonDump> GetSessions()
         {
-            IEnumerable<NamedJsonDump> sessions = ClientDbContext.NamedJsonDumps
+            IQueryable<NamedJsonDump> sessions = ClientDbContext.NamedJsonDumps
                 .Where(jsonDump => jsonDump.DumpTypeId == (int)SerialisableType.GuiSessionContainer);
 
             IEnumerable<NamedJsonDump> orderedSessions = sessions
@@ -36,14 +36,14 @@ namespace HydrusSharp.Repositories
 
             IEnumerable<NamedJsonDump> latestSessions = orderedSessions
                 .GroupBy(jsonDump => jsonDump.DumpName)
-                .Select(grouping => grouping.First());
+                .Select(grouping => grouping.FirstOrDefault());
 
             return latestSessions;
         }
 
         public IEnumerable<HashedJsonDump> GetHashedJsonDumps()
         {
-            IEnumerable<HashedJsonDump> jsonDump = ClientDbContext.HashedJsonDumps;
+            IQueryable<HashedJsonDump> jsonDump = ClientDbContext.HashedJsonDumps;
 
             return jsonDump;
         }

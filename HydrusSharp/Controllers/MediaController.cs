@@ -23,7 +23,7 @@ namespace HydrusSharp.Controllers
         }
 
         [HttpGet]
-        public FileStreamResult GetMedia(int hashId, bool isThumbnail)
+        public ActionResult GetMedia(int hashId, bool isThumbnail)
         {
             HashRepository hashRepository = new HashRepository(ClientMasterDbContext);
             Hash matchingHash = hashRepository.GetById(hashId);
@@ -37,7 +37,12 @@ namespace HydrusSharp.Controllers
             IEnumerable<DirectoryInfo> subdirectories = clientFilesDirectory.EnumerateDirectories();
             IEnumerable<FileInfo> files = clientFilesDirectory.EnumerateFiles("*", SearchOption.AllDirectories);
             IEnumerable<FileInfo> matchingMedias = files.Where(media => media.Name.Substring(0, media.Name.Length - media.Extension.Length) == matchingHash.HashString);
-            FileInfo matchingMedia = matchingMedias.First(media => (media.Extension == ".thumbnail") == isThumbnail);
+            FileInfo matchingMedia = matchingMedias.FirstOrDefault(media => (media.Extension == ".thumbnail") == isThumbnail);
+
+            if (matchingMedia == null)
+            {
+                return new HttpStatusCodeResult(404, "Media item not found");
+            }
 
             return new FileStreamResult(matchingMedia.OpenRead(), "application/octet-stream");
         }

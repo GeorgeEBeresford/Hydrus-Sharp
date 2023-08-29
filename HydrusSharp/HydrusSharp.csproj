@@ -146,6 +146,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MediaController.cs" />
     <Compile Include="DbContexts\ClientDbContext.cs" />
+    <Compile Include="DbContexts\ClientMappingsDbContext.cs" />
     <Compile Include="DbContexts\ClientMasterDbContext.cs" />
     <Compile Include="Enums\BandwidthType.cs" />
     <Compile Include="Enums\ContentMerge.cs" />
@@ -168,12 +169,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ClientMappings\CurrentMappings9.cs" />
+    <Compile Include="Models\ClientMappings\CurrentMappings10.cs" />
+    <Compile Include="Models\ClientMappings\ICurrentMapping.cs" />
     <Compile Include="Models\ClientMaster\Hash.cs" />
+    <Compile Include="Models\ClientMaster\Namespace.cs" />
+    <Compile Include="Models\ClientMaster\Subtag.cs" />
+    <Compile Include="Models\ClientMaster\Tag.cs" />
     <Compile Include="Models\Client\FileInfo.cs" />
     <Compile Include="Models\Client\HashedJsonDump.cs" />
     <Compile Include="Models\Client\JsonDump.cs" />
     <Compile Include="Models\Client\NamedJsonDump.cs" />
     <Compile Include="Models\Client\OptionCollection.cs" />
+    <Compile Include="Models\Client\TagParent.cs" />
     <Compile Include="Models\ViewModel\MediaCollectViewModel.cs" />
     <Compile Include="Models\ViewModel\MediaSortViewModel.cs" />
     <Compile Include="Models\ViewModel\SearchPredicateViewModel.cs" />
@@ -182,7 +190,9 @@
     <Compile Include="Providers\FileRepository.cs" />
     <Compile Include="Providers\HashRepository.cs" />
     <Compile Include="Providers\JsonDumpRepository.cs" />
+    <Compile Include="Providers\MappingRepository.cs" />
     <Compile Include="Providers\OptionRepository.cs" />
+    <Compile Include="Providers\TagRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Core\Scripts\Index.ts" />

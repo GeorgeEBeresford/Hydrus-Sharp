@@ -6,6 +6,9 @@ namespace HydrusSharp.DbContexts
     public class ClientMasterDbContext : DbContext
     {
         public DbSet<Hash> Hashes { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Subtag> Subtags { get; set; }
+        public DbSet<Namespace> Namespaces { get; set; }
 
         public ClientMasterDbContext() : base("ClientMaster")
         {
@@ -21,6 +24,14 @@ namespace HydrusSharp.DbContexts
             //See http://go.microsoft.com/fwlink/?LinkId=260882 for more information.
 
             var instance = System.Data.Entity.SqlServer.SqlProviderServices.Instance;
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Tag>().HasRequired(tag => tag.Subtag).WithMany(subtag => subtag.Tags);
+            modelBuilder.Entity<Tag>().HasRequired(tag => tag.Namespace).WithMany(namespaceObject => namespaceObject.Tags);
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }
