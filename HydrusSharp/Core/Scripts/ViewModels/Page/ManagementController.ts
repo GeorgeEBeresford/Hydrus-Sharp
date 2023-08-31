@@ -18,7 +18,7 @@ class ManagementController {
         const dictionary = managementType[2];
         const options = dictionary[2];
 
-        console.log(options);
+        //console.log(options);
 
         this.name = ko.observable(managementType[0]);
 

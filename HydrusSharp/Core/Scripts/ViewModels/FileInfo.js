@@ -9,6 +9,7 @@ var FileInfo = (function () {
         this.frameCount = ko.observable(view.FrameCount);
         this.hasAudio = ko.observable(view.HasAudio);
         this.wordCount = ko.observable(view.WordCount);
+        this.tags = ko.observableArray(view.Tags.map(function (tag) { return new TagViewModel(tag); }));
     }
     return FileInfo;
 }());

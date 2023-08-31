@@ -32,6 +32,16 @@ interface IFileInfo {
     FrameCount: number;
     HasAudio: boolean;
     WordCount: number;
+    Tags: Array<ITag>;
+}
+
+interface ITag {
+
+    TagId: number;
+    NamespaceId: number;
+    Namespace: string;
+    SubTagId: number;
+    SubTag: string;
 }
 
 interface IPaginatedResultViewModel<TResult> {

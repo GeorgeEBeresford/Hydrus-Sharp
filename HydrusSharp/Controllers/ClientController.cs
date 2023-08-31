@@ -1,6 +1,7 @@
 ﻿using HydrusSharp.DbContexts;
 using HydrusSharp.Enums;
 using HydrusSharp.Models.Client;
+using HydrusSharp.Models.ClientMappings;
 using HydrusSharp.Models.ViewModel;
 using HydrusSharp.Providers;
 using HydrusSharp.Repositories;
@@ -83,10 +84,35 @@ namespace HydrusSharp.Controllers
                 fileInfos = fileInfos.Take(take.Value);
             }
 
+            MappingRepository mappingRepository = new MappingRepository(ClientMappingsDbContext);
+            TagRepository tagRepository = new TagRepository(ClientMasterDbContext, ClientDbContext);
+
             PaginatedResultViewModel paginatedResults = new PaginatedResultViewModel
             {
                 Count = count,
-                Items = fileInfos.ToArray()
+                Items = fileInfos.Select(fileInfo => new FileInfoViewModel
+                {
+                    HashId = fileInfo.HashId,
+                    Size = fileInfo.Size,
+                    Width = fileInfo.Width,
+                    Height = fileInfo.Height,
+                    MimeType = fileInfo.MimeType.ToString(),
+                    Duration = fileInfo.Duration,
+                    FrameCount = fileInfo.FrameCount,
+                    HasAudio = fileInfo.HasAudio,
+                    Tags = mappingRepository.GetByHashId(fileInfo.HashId)
+                    .Select(map => tagRepository.GetTags().First(tag => tag.TagId == map.TagId))
+                    .Select(tag => new TagViewModel
+                    {
+                        TagId = tag.TagId,
+                        Namespace = tag.Namespace.Value,
+                        NamespaceId = tag.NamespaceId,
+                        SubTag = tag.Subtag.Value,
+                        SubTagId = tag.SubtagId
+                    })
+                    .ToArray()
+                })
+                .ToArray()
             };
 
             return Json(ResultViewModel.Success(paginatedResults));

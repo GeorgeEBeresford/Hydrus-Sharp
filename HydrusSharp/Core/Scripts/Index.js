@@ -12,7 +12,6 @@ var Index = (function () {
         this.selectedPage = ko.observable(1);
         this.selectablePages = ko.computed(function () {
             var numberOfPages = Math.ceil(_this.numberOfFiles() / _this.filesPerPage());
-            console.log(numberOfPages);
             var selectablePages = [];
             for (var index = 1; index <= numberOfPages; index++) {
                 selectablePages.push(index);

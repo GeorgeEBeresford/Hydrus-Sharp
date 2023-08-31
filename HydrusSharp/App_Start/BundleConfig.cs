@@ -23,18 +23,19 @@ namespace HydrusSharp
             ));
 
             bundles.Add(new ScriptBundle("~/bundles/scripts/index").Include(
-                "~/Core/Scripts/Providers/ClientProvider.js",
-                "~/Core/Scripts/ViewModels/NamedJsonDump.js",
-                "~/Core/Scripts/ViewModels/HashedJsonDump.js",
-                "~/Core/Scripts/ViewModels/GuiSessionContainerPageSingle.js",
-                "~/Core/Scripts/ViewModels/GuiSessionContainerPageNotebook.js",
+                "~/Core/Scripts/ViewModels/Page/NamedJsonDump.js",
+                "~/Core/Scripts/ViewModels/Page/HashedJsonDump.js",
+                "~/Core/Scripts/ViewModels/Page/GuiSessionContainerPageSingle.js",
+                "~/Core/Scripts/ViewModels/Page/GuiSessionContainerPageNotebook.js",
+                "~/Core/Scripts/ViewModels/Page/ManagementController.js",
                 "~/Core/Scripts/ViewModels/Query/MediaSort.js",
                 "~/Core/Scripts/ViewModels/Query/MediaCollect.js",
                 "~/Core/Scripts/ViewModels/Query/SearchPredicate.js",
                 "~/Core/Scripts/ViewModels/Query/FileSearchContext.js",
-                "~/Core/Scripts/ViewModels/PaginatedCollection.js",
+                "~/Core/Scripts/ViewModels/TagViewModel.js",
                 "~/Core/Scripts/ViewModels/FileInfo.js",
-                "~/Core/Scripts/ViewModels/ManagementController.js",
+                "~/Core/Scripts/ViewModels/PaginatedCollection.js",
+                "~/Core/Scripts/Providers/ClientProvider.js",
                 "~/Core/Scripts/Index.js"
             ));
         }

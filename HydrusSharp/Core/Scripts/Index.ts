@@ -25,7 +25,6 @@ class Index {
         this.selectablePages = ko.computed(() => {
 
             const numberOfPages = Math.ceil(this.numberOfFiles() / this.filesPerPage());
-            console.log(numberOfPages);
 
             const selectablePages = [];
             for (let index = 1; index <= numberOfPages; index++) {

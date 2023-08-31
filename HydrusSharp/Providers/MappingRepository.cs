@@ -22,6 +22,11 @@ namespace HydrusSharp.Providers
             return currentMappings;
         }
 
+        public IEnumerable<ICurrentMapping> GetByHashId(int hashId)
+        {
+            return GetAll().Where(mapping => mapping.HashId == hashId);
+        }
+
         public IEnumerable<ICurrentMapping> GetByTagId(int tagId)
         {
             return GetAll().Where(mapping => mapping.TagId == tagId);

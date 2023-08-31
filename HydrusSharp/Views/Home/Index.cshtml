@@ -88,12 +88,12 @@
     <section class="d-flex flex-column flex-shrink-0 p-3 searchResults">
         <ol class="d-flex flex-row flex-wrap list-unstyled">
             <!-- ko foreach: fileInfos -->
-            <li>
+            <li style="width: 300px; margin-right: 10px">
                 <figure class="figure">
                     <div class="figure-img img-thumbnail d-flex flex-column justify-content-around overflow-hidden position-relative" data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; height: ${$root.thumbnailHeight()}px;` }">
                         <img class="flex-grow-0 text-center fs-1 lh-lg bg-danger-subtle" data-bind="attr: { srcset: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=true` }" style="width: 100%" alt="Missing Item" />
                     </div>
-                    <figcaption class="figure-caption" data-bind="text: width() + 'x' + height()"></figcaption>
+                    <figcaption class="figure-caption" data-bind="text: tags().filter(tag => tag.namespace() === 'title').map(tag => tag.subTag()).join(', ')"></figcaption>
                 </figure>
             </li>
             <!-- /ko -->

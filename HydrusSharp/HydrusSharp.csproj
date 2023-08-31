@@ -169,8 +169,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClientMappings\CurrentMappings9.cs" />
     <Compile Include="Models\ClientMappings\CurrentMappings10.cs" />
+    <Compile Include="Models\ClientMappings\CurrentMappings9.cs" />
     <Compile Include="Models\ClientMappings\ICurrentMapping.cs" />
     <Compile Include="Models\ClientMaster\Hash.cs" />
     <Compile Include="Models\ClientMaster\Namespace.cs" />
@@ -182,11 +182,13 @@
     <Compile Include="Models\Client\NamedJsonDump.cs" />
     <Compile Include="Models\Client\OptionCollection.cs" />
     <Compile Include="Models\Client\TagParent.cs" />
+    <Compile Include="Models\ViewModel\FileInfoViewModel.cs" />
     <Compile Include="Models\ViewModel\MediaCollectViewModel.cs" />
     <Compile Include="Models\ViewModel\MediaSortViewModel.cs" />
     <Compile Include="Models\ViewModel\PaginatedResultViewModel.cs" />
     <Compile Include="Models\ViewModel\SearchPredicateViewModel.cs" />
     <Compile Include="Models\ViewModel\ResultViewModel.cs" />
+    <Compile Include="Models\ViewModel\TagViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\FileRepository.cs" />
     <Compile Include="Providers\HashRepository.cs" />
@@ -226,14 +228,15 @@
     <TypeScriptCompile Include="Core\Scripts\ViewModels\FileInfo.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\PaginatedCollection.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\Query\FileSearchContext.ts" />
-    <TypeScriptCompile Include="Core\Scripts\ViewModels\GuiSessionContainerPageNotebook.ts" />
-    <TypeScriptCompile Include="Core\Scripts\ViewModels\GuiSessionContainerPageSingle.ts" />
-    <TypeScriptCompile Include="Core\Scripts\ViewModels\HashedJsonDump.ts" />
-    <TypeScriptCompile Include="Core\Scripts\ViewModels\ManagementController.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\Page\GuiSessionContainerPageNotebook.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\Page\GuiSessionContainerPageSingle.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\Page\HashedJsonDump.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\Page\ManagementController.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\Query\MediaCollect.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\Query\MediaSort.ts" />
-    <TypeScriptCompile Include="Core\Scripts\ViewModels\NamedJsonDump.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\Page\NamedJsonDump.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\Query\SearchPredicate.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\TagViewModel.ts" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

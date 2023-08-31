@@ -18,6 +18,8 @@ class FileInfo {
 
     public wordCount: ko.Observable<number>;
 
+    public tags: ko.ObservableArray<TagViewModel>;
+
     constructor(view: IFileInfo) {
 
         this.hashId = ko.observable(view.HashId);
@@ -29,5 +31,6 @@ class FileInfo {
         this.frameCount = ko.observable(view.FrameCount);
         this.hasAudio = ko.observable(view.HasAudio);
         this.wordCount = ko.observable(view.WordCount);
+        this.tags = ko.observableArray(view.Tags.map(tag => new TagViewModel(tag)));
     }
 }

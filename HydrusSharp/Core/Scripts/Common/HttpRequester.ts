@@ -19,12 +19,12 @@ class HttpRequester {
                     return;
                 }
 
-                console.log(result.Error);
+                console.error(result.Error);
                 deferred.reject();
             },
             error: () => {
 
-                console.log("Internal server error");
+                console.error("Internal server error");
                 deferred.reject();
             }
         });
@@ -51,12 +51,12 @@ class HttpRequester {
                     return;
                 }
 
-                console.log(result.Error);
+                console.error(result.Error);
                 deferred.reject();
             },
             error: () => {
 
-                console.log("Internal server error");
+                console.error("Internal server error");
                 deferred.reject();
             }
         });

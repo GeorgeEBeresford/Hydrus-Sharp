@@ -14,11 +14,11 @@ var HttpRequester = (function () {
                     deferred.resolve(result);
                     return;
                 }
-                console.log(result.Error);
+                console.error(result.Error);
                 deferred.reject();
             },
             error: function () {
-                console.log("Internal server error");
+                console.error("Internal server error");
                 deferred.reject();
             }
         });
@@ -37,11 +37,11 @@ var HttpRequester = (function () {
                     deferred.resolve(result);
                     return;
                 }
-                console.log(result.Error);
+                console.error(result.Error);
                 deferred.reject();
             },
             error: function () {
-                console.log("Internal server error");
+                console.error("Internal server error");
                 deferred.reject();
             }
         });
