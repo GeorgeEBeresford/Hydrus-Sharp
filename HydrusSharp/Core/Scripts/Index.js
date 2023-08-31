@@ -7,10 +7,25 @@ var Index = (function () {
         this.fileInfos = ko.observableArray([]);
         this.thumbnailWidth = ko.observable(0);
         this.thumbnailHeight = ko.observable(0);
+        this.numberOfFiles = ko.observable(0);
+        this.filesPerPage = ko.observable(20);
+        this.selectedPage = ko.observable(1);
+        this.selectablePages = ko.computed(function () {
+            var numberOfPages = Math.ceil(_this.numberOfFiles() / _this.filesPerPage());
+            console.log(numberOfPages);
+            var selectablePages = [];
+            for (var index = 1; index <= numberOfPages; index++) {
+                selectablePages.push(index);
+            }
+            return selectablePages;
+        });
         this.sessions.subscribe(function () {
             _this.selectFirstPageAsync();
         });
         this.hashedJsonDump.subscribe(function () {
+            _this.searchForMatchingMedia();
+        });
+        this.selectedPage.subscribe(function () {
             _this.searchForMatchingMedia();
         });
     }
@@ -58,9 +73,12 @@ var Index = (function () {
         var _this = this;
         var deferred = $.Deferred();
         var managementController = this.hashedJsonDump().managementController();
-        ClientProvider.getMatchingFileInfoAsync(managementController.mediaCollect(), managementController.mediaSort(), managementController.fileSearchContext().predicates(), 0, 20)
-            .then(function (fileInfos) {
-            _this.fileInfos(fileInfos);
+        var skip = (this.selectedPage() - 1) * this.filesPerPage();
+        var take = this.filesPerPage();
+        ClientProvider.getMatchingFileInfoAsync(managementController.mediaCollect(), managementController.mediaSort(), managementController.fileSearchContext().predicates(), skip, take)
+            .then(function (paginatedFileInfos) {
+            _this.numberOfFiles(paginatedFileInfos.count());
+            _this.fileInfos(paginatedFileInfos.items());
             deferred.resolve();
         })
             .fail(function () {

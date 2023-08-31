@@ -1,10 +1,10 @@
 var HttpRequester = (function () {
     function HttpRequester() {
     }
-    HttpRequester.getAsync = function (action, controller, data, returnType) {
+    HttpRequester.getAsync = function (url, data, returnType) {
         var deferred = $.Deferred();
         $.ajax({
-            url: "".concat(controller, "/").concat(action),
+            url: url,
             method: "GET",
             data: data,
             contentType: "application/json;utf-8",
@@ -24,10 +24,10 @@ var HttpRequester = (function () {
         });
         return deferred.promise();
     };
-    HttpRequester.postAsync = function (action, controller, data, returnType) {
+    HttpRequester.postAsync = function (url, data, returnType) {
         var deferred = $.Deferred();
         $.ajax({
-            url: "".concat(controller, "/").concat(action),
+            url: url,
             method: "POST",
             data: data,
             contentType: "application/json;utf-8",

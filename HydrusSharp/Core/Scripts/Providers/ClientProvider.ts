@@ -3,8 +3,9 @@ class ClientProvider {
     public static getSessionsAsync(): JQueryPromise<Array<NamedJsonDump>> {
 
         const deferred: JQueryDeferred<Array<NamedJsonDump>> = $.Deferred();
+        const url: string = $("input[data-url='Client,Sessions']").val();
 
-        HttpRequester.getAsync("Sessions", "Client")
+        HttpRequester.getAsync(url)
             .then(result => {
 
                 const sessions = result.Value as Array<INamedJsonDump>;
@@ -23,8 +24,9 @@ class ClientProvider {
     public static getHashedJsonDumpAsync(hash: string): JQueryPromise<HashedJsonDump> {
 
         const deferred: JQueryDeferred<HashedJsonDump> = $.Deferred();
+        const url: string = $("input[data-url='Client,HashedJsonDump']").val();
 
-        HttpRequester.getAsync("HashedJsonDump", "Client", { hash: hash })
+        HttpRequester.getAsync(url, { hash: hash })
             .then(result => {
 
                 const hashedJsonDump = result.Value as IHashedJsonDump;
@@ -41,9 +43,10 @@ class ClientProvider {
         return deferred.promise();
     }
 
-    public static getMatchingFileInfoAsync(collect: MediaCollect, sort: MediaSort, predicates: Array<SearchPredicate>, skip: number, take: number): JQueryPromise<Array<FileInfo>> {
+    public static getMatchingFileInfoAsync(collect: MediaCollect, sort: MediaSort, predicates: Array<SearchPredicate>, skip: number, take: number): JQueryPromise<PaginatedCollection<FileInfo>> {
 
-        const deferred: JQueryDeferred<Array<FileInfo>> = $.Deferred();
+        const deferred: JQueryDeferred<PaginatedCollection<FileInfo>> = $.Deferred();
+        const url: string = $("input[data-url='Client,MatchingFileInfo']").val();
         const payload = {
 
             collect: collect.toJson(),
@@ -53,18 +56,18 @@ class ClientProvider {
             take: take
         };
 
-        HttpRequester.postAsync("MatchingFileInfo", "Client", JSON.stringify(payload))
+        HttpRequester.postAsync(url, JSON.stringify(payload))
             .then(result => {
 
-                const fileInfos = result.Value as Array<IFileInfo>;
-                const viewModels = fileInfos.map(fileInfo => new FileInfo(fileInfo));
-
-                deferred.resolve(viewModels);
+                const paginatedFileInfos = result.Value as IPaginatedResultViewModel<IFileInfo>;
+                const itemViewModels = paginatedFileInfos.Items.map(fileInfo => new FileInfo(fileInfo));
+                const viewModel = new PaginatedCollection<FileInfo>(itemViewModels, paginatedFileInfos.Count);
+                deferred.resolve(viewModel);
             })
             .fail(() => {
 
                 deferred.reject();
-            })
+            });
 
         return deferred.promise();
     }
@@ -72,12 +75,13 @@ class ClientProvider {
     public static getOptionAsync(optionName: string): JQueryPromise<string> {
 
         const deferred: JQueryDeferred<string> = $.Deferred();
+        const url: string = $("input[data-url='Client,Option']").val();
         const payload = {
 
             optionName: optionName
         };
 
-        HttpRequester.getAsync("Option", "Client", payload)
+        HttpRequester.getAsync(url, payload)
             .then(result => {
 
                 const option = result.Value as string;

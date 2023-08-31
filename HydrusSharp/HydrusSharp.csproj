@@ -184,6 +184,7 @@
     <Compile Include="Models\Client\TagParent.cs" />
     <Compile Include="Models\ViewModel\MediaCollectViewModel.cs" />
     <Compile Include="Models\ViewModel\MediaSortViewModel.cs" />
+    <Compile Include="Models\ViewModel\PaginatedResultViewModel.cs" />
     <Compile Include="Models\ViewModel\SearchPredicateViewModel.cs" />
     <Compile Include="Models\ViewModel\ResultViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -208,7 +209,6 @@
     </Content>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -224,6 +224,7 @@
     <TypeScriptCompile Include="Core\Scripts\Providers\ClientProvider.ts" />
     <TypeScriptCompile Include="Core\Scripts\Types\knockout.d.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\FileInfo.ts" />
+    <TypeScriptCompile Include="Core\Scripts\ViewModels\PaginatedCollection.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\Query\FileSearchContext.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\GuiSessionContainerPageNotebook.ts" />
     <TypeScriptCompile Include="Core\Scripts\ViewModels\GuiSessionContainerPageSingle.ts" />

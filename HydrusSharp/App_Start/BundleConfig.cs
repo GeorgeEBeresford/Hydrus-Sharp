@@ -32,6 +32,7 @@ namespace HydrusSharp
                 "~/Core/Scripts/ViewModels/Query/MediaCollect.js",
                 "~/Core/Scripts/ViewModels/Query/SearchPredicate.js",
                 "~/Core/Scripts/ViewModels/Query/FileSearchContext.js",
+                "~/Core/Scripts/ViewModels/PaginatedCollection.js",
                 "~/Core/Scripts/ViewModels/FileInfo.js",
                 "~/Core/Scripts/ViewModels/ManagementController.js",
                 "~/Core/Scripts/Index.js"

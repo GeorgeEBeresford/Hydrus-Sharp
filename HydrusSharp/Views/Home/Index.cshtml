@@ -2,6 +2,11 @@
     ViewBag.Title = "Home Page";
 }
 
+<input type="hidden" data-url="Client,Sessions" value="@Url.Action("Sessions", "Client")" />
+<input type="hidden" data-url="Client,HashedJsonDump" value="@Url.Action("HashedJsonDump", "Client")" />
+<input type="hidden" data-url="Client,Option" value="@Url.Action("Option", "Client")" />
+<input type="hidden" data-url="Client,MatchingFileInfo" value="@Url.Action("MatchingFileInfo", "Client")" />
+
 <main>
     <section>
         <div class="row">
@@ -85,7 +90,7 @@
             <!-- ko foreach: fileInfos -->
             <li>
                 <figure class="figure">
-                    <div class="figure-img img-thumbnail d-flex flex-column justify-content-around overflow-hidden" data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; height: ${$root.thumbnailHeight()}px;` }">
+                    <div class="figure-img img-thumbnail d-flex flex-column justify-content-around overflow-hidden position-relative" data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; height: ${$root.thumbnailHeight()}px;` }">
                         <img class="flex-grow-0 text-center fs-1 lh-lg bg-danger-subtle" data-bind="attr: { srcset: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=true` }" style="width: 100%" alt="Missing Item" />
                     </div>
                     <figcaption class="figure-caption" data-bind="text: width() + 'x' + height()"></figcaption>
@@ -93,6 +98,15 @@
             </li>
             <!-- /ko -->
         </ol>
+        <nav aria-label="Search result pages">
+            <ol class="pagination">
+                <!-- ko foreach: selectablePages -->
+                <li data-bind="attr: { class: $data !== $root.selectedPage() ? 'page-item' : 'page-item active' }" class="page-item">
+                    <a class="page-link" data-bind="text: $data, click: () => { $root.selectedPage($data); }, attr: { href: $data !== $root.selectedPage() ? '#' : null }" href="#"></a>
+                </li>
+                <!-- /ko -->
+            </ol>
+        </nav>
     </section>
 </main>
 

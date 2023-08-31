@@ -71,6 +71,8 @@ namespace HydrusSharp.Controllers
             FileRepository fileRepository = new FileRepository(ClientDbContext, ClientMasterDbContext, ClientMappingsDbContext);
             IEnumerable<FileInfo> fileInfos = fileRepository.GetFileInfos(collect, sort, filters);
 
+            int count = fileInfos.Count();
+
             if (skip.HasValue)
             {
                 fileInfos = fileInfos.Skip(skip.Value);
@@ -81,7 +83,13 @@ namespace HydrusSharp.Controllers
                 fileInfos = fileInfos.Take(take.Value);
             }
 
-            return Json(ResultViewModel.Success(fileInfos));
+            PaginatedResultViewModel paginatedResults = new PaginatedResultViewModel
+            {
+                Count = count,
+                Items = fileInfos.ToArray()
+            };
+
+            return Json(ResultViewModel.Success(paginatedResults));
         }
 
         [HttpGet]

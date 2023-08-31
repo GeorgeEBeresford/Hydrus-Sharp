@@ -33,3 +33,9 @@ interface IFileInfo {
     HasAudio: boolean;
     WordCount: number;
 }
+
+interface IPaginatedResultViewModel<TResult> {
+
+    Items: Array<TResult>;
+    Count: number;
+}

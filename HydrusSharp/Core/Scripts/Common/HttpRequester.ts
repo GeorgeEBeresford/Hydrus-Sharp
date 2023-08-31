@@ -1,12 +1,12 @@
 class HttpRequester {
 
-    public static getAsync(action: string, controller: string, data?: any, returnType?: string): JQueryPromise<IResultViewModel> {
+    public static getAsync(url: string, data?: any, returnType?: string): JQueryPromise<IResultViewModel> {
 
         const deferred: JQueryDeferred<IResultViewModel> = $.Deferred();
 
         $.ajax({
 
-            url: `${controller}/${action}`,
+            url: url,
             method: "GET",
             data: data,
             contentType: "application/json;utf-8",
@@ -32,13 +32,13 @@ class HttpRequester {
         return deferred.promise();
     }
 
-    public static postAsync(action: string, controller: string, data: string, returnType?: string): JQueryPromise<IResultViewModel> {
+    public static postAsync(url: string, data: string, returnType?: string): JQueryPromise<IResultViewModel> {
 
         const deferred: JQueryDeferred<IResultViewModel> = $.Deferred();
 
         $.ajax({
 
-            url: `${controller}/${action}`,
+            url: url,
             method: "POST",
             data: data,
             contentType: "application/json;utf-8",

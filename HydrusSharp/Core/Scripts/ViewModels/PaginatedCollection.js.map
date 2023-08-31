@@ -1,0 +1,1 @@
+{"version":3,"file":"PaginatedCollection.js","sourceRoot":"","sources":["PaginatedCollection.ts"],"names":[],"mappings":"AAAA;IAMI,6BAAmB,KAAoB,EAAE,KAAa;QAElD,IAAI,CAAC,KAAK,GAAG,EAAE,CAAC,eAAe,CAAC,KAAK,CAAC,CAAC;QAEvC,IAAI,CAAC,KAAK,GAAG,EAAE,CAAC,UAAU,CAAC,KAAK,CAAC,CAAC;IACtC,CAAC;IACL,0BAAC;AAAD,CAAC,AAZD,IAYC"}
