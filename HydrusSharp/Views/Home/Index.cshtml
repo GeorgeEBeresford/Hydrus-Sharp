@@ -86,18 +86,23 @@
     </aside>
     <!-- Returned media -->
     <section class="d-flex flex-column flex-shrink-0 p-3 searchResults">
-        <ol class="d-flex flex-row flex-wrap list-unstyled">
-            <!-- ko foreach: fileInfos -->
-            <li style="width: 300px; margin-right: 10px">
-                <figure class="figure">
-                    <div class="figure-img img-thumbnail d-flex flex-column justify-content-around overflow-hidden position-relative" data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; height: ${$root.thumbnailHeight()}px;` }">
-                        <img class="flex-grow-0 text-center fs-1 lh-lg bg-danger-subtle" data-bind="attr: { srcset: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=true` }" style="width: 100%" alt="Missing Item" />
-                    </div>
-                    <figcaption class="figure-caption" data-bind="text: tags().filter(tag => tag.namespace() === 'title').map(tag => tag.subTag()).join(', ')"></figcaption>
-                </figure>
-            </li>
-            <!-- /ko -->
-        </ol>
+        <div data-bind="visible: loadingFiles() === false">
+            <ol class="d-flex flex-row flex-wrap list-unstyled">
+                <!-- ko foreach: fileInfos -->
+                <li data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; margin-right: 10px` }">
+                    <a class="figure" data-bind="attr: { href: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=false` }">
+                        <div class="figure-img img-thumbnail d-flex flex-column justify-content-around overflow-hidden position-relative" data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; height: ${$root.thumbnailHeight()}px;` }">
+                            <img class="flex-grow-0 text-center fs-1 lh-lg bg-danger-subtle" data-bind="attr: { srcset: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=true` }" style="width: 100%" alt="Missing Item" />
+                        </div>
+                        <figcaption class="figure-caption" data-bind="text: tags().filter(tag => tag.namespace() === 'title').map(tag => tag.subTag()).join(', ')"></figcaption>
+                    </a>
+                </li>
+                <!-- /ko -->
+            </ol>
+        </div>
+        <div data-bind="visible: loadingFiles() === true">
+            Loading...
+        </div>
         <nav aria-label="Search result pages">
             <ol class="pagination">
                 <!-- ko foreach: selectablePages -->

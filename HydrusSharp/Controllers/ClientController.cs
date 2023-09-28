@@ -1,10 +1,9 @@
-﻿using HydrusSharp.DbContexts;
-using HydrusSharp.Enums;
-using HydrusSharp.Models.Client;
-using HydrusSharp.Models.ClientMappings;
-using HydrusSharp.Models.ViewModel;
-using HydrusSharp.Providers;
-using HydrusSharp.Repositories;
+﻿using HydrusSharp.Data.Models.Client;
+using HydrusSharp.Data.Models.ClientMappings;
+using HydrusSharp.Data.Models.ViewModels;
+using HydrusSharp.Data.Repositories;
+using HydrusSharp.Data.Repositories.DataAccess;
+using HydrusSharp.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -13,23 +12,15 @@ namespace HydrusSharp.Controllers
 {
     public class ClientController : Controller
     {
-        private ClientDbContext ClientDbContext { get; set; }
-        private ClientMasterDbContext ClientMasterDbContext { get; set; }
-        private ClientMappingsDbContext ClientMappingsDbContext { get; set; }
-
-
         public ClientController()
         {
-            ClientDbContext = new ClientDbContext();
-            ClientMasterDbContext = new ClientMasterDbContext();
-            ClientMappingsDbContext = new ClientMappingsDbContext();
         }
 
         [HttpGet]
         [ActionName("JsonDumps")]
         public JsonResult GetJsonDumps()
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
+            IJsonDumpRepository jsonDumpRepository = new DAJsonDumpRepository();
             IEnumerable<JsonDump> jsonDumps = jsonDumpRepository.GetJsonDumps();
 
             return Json(ResultViewModel.Success(jsonDumps), JsonRequestBehavior.AllowGet);
@@ -39,7 +30,7 @@ namespace HydrusSharp.Controllers
         [ActionName("Sessions")]
         public JsonResult GetSessions()
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
+            IJsonDumpRepository jsonDumpRepository = new DAJsonDumpRepository();
             IEnumerable<NamedJsonDump> sessions = jsonDumpRepository.GetSessions();
 
             return Json(ResultViewModel.Success(sessions), JsonRequestBehavior.AllowGet);
@@ -49,7 +40,7 @@ namespace HydrusSharp.Controllers
         [ActionName("HashedJsonDumps")]
         public JsonResult GetHashedJsonDumps()
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
+            IJsonDumpRepository jsonDumpRepository = new DAJsonDumpRepository();
             IEnumerable<HashedJsonDump> jsonDump = jsonDumpRepository.GetHashedJsonDumps();
 
             return Json(ResultViewModel.Success(jsonDump), JsonRequestBehavior.AllowGet);
@@ -59,7 +50,7 @@ namespace HydrusSharp.Controllers
         [ActionName("HashedJsonDump")]
         public JsonResult GetHashedJsonDumps(string hash)
         {
-            JsonDumpRepository jsonDumpRepository = new JsonDumpRepository(ClientDbContext);
+            IJsonDumpRepository jsonDumpRepository = new DAJsonDumpRepository();
             HashedJsonDump jsonDump = jsonDumpRepository.GetHashedJsonDump(hash);
 
             return Json(ResultViewModel.Success(jsonDump), JsonRequestBehavior.AllowGet);
@@ -67,50 +58,40 @@ namespace HydrusSharp.Controllers
 
         [HttpPost]
         [ActionName("MatchingFileInfo")]
-        public JsonResult GetMatchingFileInfo(MediaCollectViewModel collect, MediaSortViewModel sort, SearchPredicateViewModel[] filters, int? skip, int? take)
+        public JsonResult GetMatchingFileInfo(MediaCollectViewModel collect, MediaSortViewModel sort, SearchPredicateViewModel[] filters, int skip, int take)
         {
-            FileRepository fileRepository = new FileRepository(ClientDbContext, ClientMasterDbContext, ClientMappingsDbContext);
-            IEnumerable<FileInfo> fileInfos = fileRepository.GetFileInfos(collect, sort, filters);
+            IFileRepository fileRepository = new DAFileRepository();
+            IMappingRepository mappingRepository = new DAMappingRepository();
+            ITagRepository tagRepository = new DATagRepository();
 
-            int count = fileInfos.Count();
-
-            if (skip.HasValue)
-            {
-                fileInfos = fileInfos.Skip(skip.Value);
-            }
-
-            if (take.HasValue)
-            {
-                fileInfos = fileInfos.Take(take.Value);
-            }
-
-            MappingRepository mappingRepository = new MappingRepository(ClientMappingsDbContext);
-            TagRepository tagRepository = new TagRepository(ClientMasterDbContext, ClientDbContext);
+            IEnumerable<CurrentMapping> matchingMappings = mappingRepository.GetMatchingMappings(collect, sort, filters, skip, take);
+            IEnumerable<FileInfo> fileInfos = fileRepository.GetFileInfos(matchingMappings.Select(mapping => mapping.HashId));
+            int totalCount = mappingRepository.GetMappingsCount(filters);
 
             PaginatedResultViewModel paginatedResults = new PaginatedResultViewModel
             {
-                Count = count,
+                Count = totalCount,
                 Items = fileInfos.Select(fileInfo => new FileInfoViewModel
                 {
                     HashId = fileInfo.HashId,
                     Size = fileInfo.Size,
-                    Width = fileInfo.Width,
-                    Height = fileInfo.Height,
+                    Width = fileInfo.Width ?? 0,
+                    Height = fileInfo.Height ?? 0,
                     MimeType = fileInfo.MimeType.ToString(),
                     Duration = fileInfo.Duration,
                     FrameCount = fileInfo.FrameCount,
                     HasAudio = fileInfo.HasAudio,
-                    Tags = mappingRepository.GetByHashId(fileInfo.HashId)
-                    .Select(map => tagRepository.GetTags().First(tag => tag.TagId == map.TagId))
-                    .Select(tag => new TagViewModel
-                    {
-                        TagId = tag.TagId,
-                        Namespace = tag.Namespace.Value,
-                        NamespaceId = tag.NamespaceId,
-                        SubTag = tag.Subtag.Value,
-                        SubTagId = tag.SubtagId
-                    })
-                    .ToArray()
+                    Tags = new TagViewModel[0] // Disabling until I find a much cleaner way to handle this. It's dragging performance down
+
+                    //Tags = matchingMappings
+                    //    .Select(map => tagRepository.GetTags().First(tag => tag.TagId == map.TagId))
+                    //    .Select(tag => new TagViewModel
+                    //    {
+                    //        TagId = tag.TagId,
+                    //        NamespaceId = tag.NamespaceId,
+                    //        SubTagId = tag.SubtagId
+                    //    })
+                    //    .ToArray()
                 })
                 .ToArray()
             };
@@ -122,8 +103,13 @@ namespace HydrusSharp.Controllers
         [ActionName("Option")]
         public JsonResult GetOption(string optionName)
         {
-            OptionRepository optionRepository = new OptionRepository(ClientDbContext);
-            return Json(ResultViewModel.Success(optionRepository.GetOption(optionName)), JsonRequestBehavior.AllowGet);
+            IOptionRepository optionRepository = new DAOptionRepository();
+            OptionCollection optionCollection = optionRepository.GetOptions();
+            OptionService optionService = new OptionService();
+
+            string value = optionService.GetValue(optionCollection, optionName);
+
+            return Json(ResultViewModel.Success(value), JsonRequestBehavior.AllowGet);
         }
     }
 }

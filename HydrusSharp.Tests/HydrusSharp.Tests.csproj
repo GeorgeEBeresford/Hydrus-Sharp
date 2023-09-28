@@ -1,5 +1,4 @@
 ﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
   <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -35,13 +34,43 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
       <HintPath>..\packages\MSTest.TestFramework.1.2.0\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -54,15 +83,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.SQLite, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\lib\net46\System.Data.SQLite.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.118.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.118.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.118.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions" />
@@ -105,21 +125,549 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HydrusSharp.Data\Repositories\DataAccess\DAFileInfoRepositoryTest.cs" />
+    <Compile Include="HydrusSharp.Data\Repositories\DataAccess\DAMappingRepositoryTest.cs" />
+    <Compile Include="HydrusSharp.Data\Repositories\DataAccess\DAOptionRepositoryTest.cs" />
+    <Compile Include="HydrusSharp\Services\OptionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\JsonDumpServiceTest.cs" />
-    <Compile Include="Repositories\OptionServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
+    <Content Include="App_Data\db\client_files\fc6\c682bfbeb946f9494e05c11b71970a85539e1d164d684ced043271bcf1d93e0c.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App_Data\db\client.caches.db" />
+    <None Include="App_Data\db\client.db" />
+    <None Include="App_Data\db\client.mappings.db" />
+    <None Include="App_Data\db\client.master.db" />
+    <None Include="App_Data\db\client_files\tc6\c682bfbeb946f9494e05c11b71970a85539e1d164d684ced043271bcf1d93e0c.thumbnail" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\HydrusSharp.Core\HydrusSharp.Core.csproj">
+      <Project>{44BA6AE1-CDDC-480F-9840-72B12403C7B2}</Project>
+      <Name>HydrusSharp.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HydrusSharp.Data\HydrusSharp.Data.csproj">
+      <Project>{A1028D3D-33D4-401A-A892-BC342D939D24}</Project>
+      <Name>HydrusSharp.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HydrusSharp\HydrusSharp.csproj">
       <Project>{7353E312-90C0-4DA0-8818-358F6AC9E13B}</Project>
       <Name>HydrusSharp</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\db\client_files\f00\" />
+    <Folder Include="App_Data\db\client_files\f01\" />
+    <Folder Include="App_Data\db\client_files\f02\" />
+    <Folder Include="App_Data\db\client_files\f03\" />
+    <Folder Include="App_Data\db\client_files\f04\" />
+    <Folder Include="App_Data\db\client_files\f05\" />
+    <Folder Include="App_Data\db\client_files\f06\" />
+    <Folder Include="App_Data\db\client_files\f07\" />
+    <Folder Include="App_Data\db\client_files\f08\" />
+    <Folder Include="App_Data\db\client_files\f09\" />
+    <Folder Include="App_Data\db\client_files\f0a\" />
+    <Folder Include="App_Data\db\client_files\f0b\" />
+    <Folder Include="App_Data\db\client_files\f0c\" />
+    <Folder Include="App_Data\db\client_files\f0d\" />
+    <Folder Include="App_Data\db\client_files\f0e\" />
+    <Folder Include="App_Data\db\client_files\f0f\" />
+    <Folder Include="App_Data\db\client_files\f10\" />
+    <Folder Include="App_Data\db\client_files\f11\" />
+    <Folder Include="App_Data\db\client_files\f12\" />
+    <Folder Include="App_Data\db\client_files\f13\" />
+    <Folder Include="App_Data\db\client_files\f14\" />
+    <Folder Include="App_Data\db\client_files\f15\" />
+    <Folder Include="App_Data\db\client_files\f16\" />
+    <Folder Include="App_Data\db\client_files\f17\" />
+    <Folder Include="App_Data\db\client_files\f18\" />
+    <Folder Include="App_Data\db\client_files\f19\" />
+    <Folder Include="App_Data\db\client_files\f1a\" />
+    <Folder Include="App_Data\db\client_files\f1b\" />
+    <Folder Include="App_Data\db\client_files\f1c\" />
+    <Folder Include="App_Data\db\client_files\f1d\" />
+    <Folder Include="App_Data\db\client_files\f1e\" />
+    <Folder Include="App_Data\db\client_files\f1f\" />
+    <Folder Include="App_Data\db\client_files\f20\" />
+    <Folder Include="App_Data\db\client_files\f21\" />
+    <Folder Include="App_Data\db\client_files\f22\" />
+    <Folder Include="App_Data\db\client_files\f23\" />
+    <Folder Include="App_Data\db\client_files\f24\" />
+    <Folder Include="App_Data\db\client_files\f25\" />
+    <Folder Include="App_Data\db\client_files\f26\" />
+    <Folder Include="App_Data\db\client_files\f27\" />
+    <Folder Include="App_Data\db\client_files\f28\" />
+    <Folder Include="App_Data\db\client_files\f29\" />
+    <Folder Include="App_Data\db\client_files\f2a\" />
+    <Folder Include="App_Data\db\client_files\f2b\" />
+    <Folder Include="App_Data\db\client_files\f2c\" />
+    <Folder Include="App_Data\db\client_files\f2d\" />
+    <Folder Include="App_Data\db\client_files\f2e\" />
+    <Folder Include="App_Data\db\client_files\f2f\" />
+    <Folder Include="App_Data\db\client_files\f30\" />
+    <Folder Include="App_Data\db\client_files\f31\" />
+    <Folder Include="App_Data\db\client_files\f32\" />
+    <Folder Include="App_Data\db\client_files\f33\" />
+    <Folder Include="App_Data\db\client_files\f34\" />
+    <Folder Include="App_Data\db\client_files\f35\" />
+    <Folder Include="App_Data\db\client_files\f36\" />
+    <Folder Include="App_Data\db\client_files\f37\" />
+    <Folder Include="App_Data\db\client_files\f38\" />
+    <Folder Include="App_Data\db\client_files\f39\" />
+    <Folder Include="App_Data\db\client_files\f3a\" />
+    <Folder Include="App_Data\db\client_files\f3b\" />
+    <Folder Include="App_Data\db\client_files\f3c\" />
+    <Folder Include="App_Data\db\client_files\f3d\" />
+    <Folder Include="App_Data\db\client_files\f3e\" />
+    <Folder Include="App_Data\db\client_files\f3f\" />
+    <Folder Include="App_Data\db\client_files\f40\" />
+    <Folder Include="App_Data\db\client_files\f41\" />
+    <Folder Include="App_Data\db\client_files\f42\" />
+    <Folder Include="App_Data\db\client_files\f43\" />
+    <Folder Include="App_Data\db\client_files\f44\" />
+    <Folder Include="App_Data\db\client_files\f45\" />
+    <Folder Include="App_Data\db\client_files\f46\" />
+    <Folder Include="App_Data\db\client_files\f47\" />
+    <Folder Include="App_Data\db\client_files\f48\" />
+    <Folder Include="App_Data\db\client_files\f49\" />
+    <Folder Include="App_Data\db\client_files\f4a\" />
+    <Folder Include="App_Data\db\client_files\f4b\" />
+    <Folder Include="App_Data\db\client_files\f4c\" />
+    <Folder Include="App_Data\db\client_files\f4d\" />
+    <Folder Include="App_Data\db\client_files\f4e\" />
+    <Folder Include="App_Data\db\client_files\f4f\" />
+    <Folder Include="App_Data\db\client_files\f50\" />
+    <Folder Include="App_Data\db\client_files\f51\" />
+    <Folder Include="App_Data\db\client_files\f52\" />
+    <Folder Include="App_Data\db\client_files\f53\" />
+    <Folder Include="App_Data\db\client_files\f54\" />
+    <Folder Include="App_Data\db\client_files\f55\" />
+    <Folder Include="App_Data\db\client_files\f56\" />
+    <Folder Include="App_Data\db\client_files\f57\" />
+    <Folder Include="App_Data\db\client_files\f58\" />
+    <Folder Include="App_Data\db\client_files\f59\" />
+    <Folder Include="App_Data\db\client_files\f5a\" />
+    <Folder Include="App_Data\db\client_files\f5b\" />
+    <Folder Include="App_Data\db\client_files\f5c\" />
+    <Folder Include="App_Data\db\client_files\f5d\" />
+    <Folder Include="App_Data\db\client_files\f5e\" />
+    <Folder Include="App_Data\db\client_files\f5f\" />
+    <Folder Include="App_Data\db\client_files\f60\" />
+    <Folder Include="App_Data\db\client_files\f61\" />
+    <Folder Include="App_Data\db\client_files\f62\" />
+    <Folder Include="App_Data\db\client_files\f63\" />
+    <Folder Include="App_Data\db\client_files\f64\" />
+    <Folder Include="App_Data\db\client_files\f65\" />
+    <Folder Include="App_Data\db\client_files\f66\" />
+    <Folder Include="App_Data\db\client_files\f67\" />
+    <Folder Include="App_Data\db\client_files\f68\" />
+    <Folder Include="App_Data\db\client_files\f69\" />
+    <Folder Include="App_Data\db\client_files\f6a\" />
+    <Folder Include="App_Data\db\client_files\f6b\" />
+    <Folder Include="App_Data\db\client_files\f6c\" />
+    <Folder Include="App_Data\db\client_files\f6d\" />
+    <Folder Include="App_Data\db\client_files\f6e\" />
+    <Folder Include="App_Data\db\client_files\f6f\" />
+    <Folder Include="App_Data\db\client_files\f70\" />
+    <Folder Include="App_Data\db\client_files\f71\" />
+    <Folder Include="App_Data\db\client_files\f72\" />
+    <Folder Include="App_Data\db\client_files\f73\" />
+    <Folder Include="App_Data\db\client_files\f74\" />
+    <Folder Include="App_Data\db\client_files\f75\" />
+    <Folder Include="App_Data\db\client_files\f76\" />
+    <Folder Include="App_Data\db\client_files\f77\" />
+    <Folder Include="App_Data\db\client_files\f78\" />
+    <Folder Include="App_Data\db\client_files\f79\" />
+    <Folder Include="App_Data\db\client_files\f7a\" />
+    <Folder Include="App_Data\db\client_files\f7b\" />
+    <Folder Include="App_Data\db\client_files\f7c\" />
+    <Folder Include="App_Data\db\client_files\f7d\" />
+    <Folder Include="App_Data\db\client_files\f7e\" />
+    <Folder Include="App_Data\db\client_files\f7f\" />
+    <Folder Include="App_Data\db\client_files\f80\" />
+    <Folder Include="App_Data\db\client_files\f81\" />
+    <Folder Include="App_Data\db\client_files\f82\" />
+    <Folder Include="App_Data\db\client_files\f83\" />
+    <Folder Include="App_Data\db\client_files\f84\" />
+    <Folder Include="App_Data\db\client_files\f85\" />
+    <Folder Include="App_Data\db\client_files\f86\" />
+    <Folder Include="App_Data\db\client_files\f87\" />
+    <Folder Include="App_Data\db\client_files\f88\" />
+    <Folder Include="App_Data\db\client_files\f89\" />
+    <Folder Include="App_Data\db\client_files\f8a\" />
+    <Folder Include="App_Data\db\client_files\f8b\" />
+    <Folder Include="App_Data\db\client_files\f8c\" />
+    <Folder Include="App_Data\db\client_files\f8d\" />
+    <Folder Include="App_Data\db\client_files\f8e\" />
+    <Folder Include="App_Data\db\client_files\f8f\" />
+    <Folder Include="App_Data\db\client_files\f90\" />
+    <Folder Include="App_Data\db\client_files\f91\" />
+    <Folder Include="App_Data\db\client_files\f92\" />
+    <Folder Include="App_Data\db\client_files\f93\" />
+    <Folder Include="App_Data\db\client_files\f94\" />
+    <Folder Include="App_Data\db\client_files\f95\" />
+    <Folder Include="App_Data\db\client_files\f96\" />
+    <Folder Include="App_Data\db\client_files\f97\" />
+    <Folder Include="App_Data\db\client_files\f98\" />
+    <Folder Include="App_Data\db\client_files\f99\" />
+    <Folder Include="App_Data\db\client_files\f9a\" />
+    <Folder Include="App_Data\db\client_files\f9b\" />
+    <Folder Include="App_Data\db\client_files\f9c\" />
+    <Folder Include="App_Data\db\client_files\f9d\" />
+    <Folder Include="App_Data\db\client_files\f9e\" />
+    <Folder Include="App_Data\db\client_files\f9f\" />
+    <Folder Include="App_Data\db\client_files\fa0\" />
+    <Folder Include="App_Data\db\client_files\fa1\" />
+    <Folder Include="App_Data\db\client_files\fa2\" />
+    <Folder Include="App_Data\db\client_files\fa3\" />
+    <Folder Include="App_Data\db\client_files\fa4\" />
+    <Folder Include="App_Data\db\client_files\fa5\" />
+    <Folder Include="App_Data\db\client_files\fa6\" />
+    <Folder Include="App_Data\db\client_files\fa7\" />
+    <Folder Include="App_Data\db\client_files\fa8\" />
+    <Folder Include="App_Data\db\client_files\fa9\" />
+    <Folder Include="App_Data\db\client_files\faa\" />
+    <Folder Include="App_Data\db\client_files\fab\" />
+    <Folder Include="App_Data\db\client_files\fac\" />
+    <Folder Include="App_Data\db\client_files\fad\" />
+    <Folder Include="App_Data\db\client_files\fae\" />
+    <Folder Include="App_Data\db\client_files\faf\" />
+    <Folder Include="App_Data\db\client_files\fb0\" />
+    <Folder Include="App_Data\db\client_files\fb1\" />
+    <Folder Include="App_Data\db\client_files\fb2\" />
+    <Folder Include="App_Data\db\client_files\fb3\" />
+    <Folder Include="App_Data\db\client_files\fb4\" />
+    <Folder Include="App_Data\db\client_files\fb5\" />
+    <Folder Include="App_Data\db\client_files\fb6\" />
+    <Folder Include="App_Data\db\client_files\fb7\" />
+    <Folder Include="App_Data\db\client_files\fb8\" />
+    <Folder Include="App_Data\db\client_files\fb9\" />
+    <Folder Include="App_Data\db\client_files\fba\" />
+    <Folder Include="App_Data\db\client_files\fbb\" />
+    <Folder Include="App_Data\db\client_files\fbc\" />
+    <Folder Include="App_Data\db\client_files\fbd\" />
+    <Folder Include="App_Data\db\client_files\fbe\" />
+    <Folder Include="App_Data\db\client_files\fbf\" />
+    <Folder Include="App_Data\db\client_files\fc0\" />
+    <Folder Include="App_Data\db\client_files\fc1\" />
+    <Folder Include="App_Data\db\client_files\fc2\" />
+    <Folder Include="App_Data\db\client_files\fc3\" />
+    <Folder Include="App_Data\db\client_files\fc4\" />
+    <Folder Include="App_Data\db\client_files\fc5\" />
+    <Folder Include="App_Data\db\client_files\fc7\" />
+    <Folder Include="App_Data\db\client_files\fc8\" />
+    <Folder Include="App_Data\db\client_files\fc9\" />
+    <Folder Include="App_Data\db\client_files\fca\" />
+    <Folder Include="App_Data\db\client_files\fcb\" />
+    <Folder Include="App_Data\db\client_files\fcc\" />
+    <Folder Include="App_Data\db\client_files\fcd\" />
+    <Folder Include="App_Data\db\client_files\fce\" />
+    <Folder Include="App_Data\db\client_files\fcf\" />
+    <Folder Include="App_Data\db\client_files\fd0\" />
+    <Folder Include="App_Data\db\client_files\fd1\" />
+    <Folder Include="App_Data\db\client_files\fd2\" />
+    <Folder Include="App_Data\db\client_files\fd3\" />
+    <Folder Include="App_Data\db\client_files\fd4\" />
+    <Folder Include="App_Data\db\client_files\fd5\" />
+    <Folder Include="App_Data\db\client_files\fd6\" />
+    <Folder Include="App_Data\db\client_files\fd7\" />
+    <Folder Include="App_Data\db\client_files\fd8\" />
+    <Folder Include="App_Data\db\client_files\fd9\" />
+    <Folder Include="App_Data\db\client_files\fda\" />
+    <Folder Include="App_Data\db\client_files\fdb\" />
+    <Folder Include="App_Data\db\client_files\fdc\" />
+    <Folder Include="App_Data\db\client_files\fdd\" />
+    <Folder Include="App_Data\db\client_files\fde\" />
+    <Folder Include="App_Data\db\client_files\fdf\" />
+    <Folder Include="App_Data\db\client_files\fe0\" />
+    <Folder Include="App_Data\db\client_files\fe1\" />
+    <Folder Include="App_Data\db\client_files\fe2\" />
+    <Folder Include="App_Data\db\client_files\fe3\" />
+    <Folder Include="App_Data\db\client_files\fe4\" />
+    <Folder Include="App_Data\db\client_files\fe5\" />
+    <Folder Include="App_Data\db\client_files\fe6\" />
+    <Folder Include="App_Data\db\client_files\fe7\" />
+    <Folder Include="App_Data\db\client_files\fe8\" />
+    <Folder Include="App_Data\db\client_files\fe9\" />
+    <Folder Include="App_Data\db\client_files\fea\" />
+    <Folder Include="App_Data\db\client_files\feb\" />
+    <Folder Include="App_Data\db\client_files\fec\" />
+    <Folder Include="App_Data\db\client_files\fed\" />
+    <Folder Include="App_Data\db\client_files\fee\" />
+    <Folder Include="App_Data\db\client_files\fef\" />
+    <Folder Include="App_Data\db\client_files\ff0\" />
+    <Folder Include="App_Data\db\client_files\ff1\" />
+    <Folder Include="App_Data\db\client_files\ff2\" />
+    <Folder Include="App_Data\db\client_files\ff3\" />
+    <Folder Include="App_Data\db\client_files\ff4\" />
+    <Folder Include="App_Data\db\client_files\ff5\" />
+    <Folder Include="App_Data\db\client_files\ff6\" />
+    <Folder Include="App_Data\db\client_files\ff7\" />
+    <Folder Include="App_Data\db\client_files\ff8\" />
+    <Folder Include="App_Data\db\client_files\ff9\" />
+    <Folder Include="App_Data\db\client_files\ffa\" />
+    <Folder Include="App_Data\db\client_files\ffb\" />
+    <Folder Include="App_Data\db\client_files\ffc\" />
+    <Folder Include="App_Data\db\client_files\ffd\" />
+    <Folder Include="App_Data\db\client_files\ffe\" />
+    <Folder Include="App_Data\db\client_files\fff\" />
+    <Folder Include="App_Data\db\client_files\t00\" />
+    <Folder Include="App_Data\db\client_files\t01\" />
+    <Folder Include="App_Data\db\client_files\t02\" />
+    <Folder Include="App_Data\db\client_files\t03\" />
+    <Folder Include="App_Data\db\client_files\t04\" />
+    <Folder Include="App_Data\db\client_files\t05\" />
+    <Folder Include="App_Data\db\client_files\t06\" />
+    <Folder Include="App_Data\db\client_files\t07\" />
+    <Folder Include="App_Data\db\client_files\t08\" />
+    <Folder Include="App_Data\db\client_files\t09\" />
+    <Folder Include="App_Data\db\client_files\t0a\" />
+    <Folder Include="App_Data\db\client_files\t0b\" />
+    <Folder Include="App_Data\db\client_files\t0c\" />
+    <Folder Include="App_Data\db\client_files\t0d\" />
+    <Folder Include="App_Data\db\client_files\t0e\" />
+    <Folder Include="App_Data\db\client_files\t0f\" />
+    <Folder Include="App_Data\db\client_files\t10\" />
+    <Folder Include="App_Data\db\client_files\t11\" />
+    <Folder Include="App_Data\db\client_files\t12\" />
+    <Folder Include="App_Data\db\client_files\t13\" />
+    <Folder Include="App_Data\db\client_files\t14\" />
+    <Folder Include="App_Data\db\client_files\t15\" />
+    <Folder Include="App_Data\db\client_files\t16\" />
+    <Folder Include="App_Data\db\client_files\t17\" />
+    <Folder Include="App_Data\db\client_files\t18\" />
+    <Folder Include="App_Data\db\client_files\t19\" />
+    <Folder Include="App_Data\db\client_files\t1a\" />
+    <Folder Include="App_Data\db\client_files\t1b\" />
+    <Folder Include="App_Data\db\client_files\t1c\" />
+    <Folder Include="App_Data\db\client_files\t1d\" />
+    <Folder Include="App_Data\db\client_files\t1e\" />
+    <Folder Include="App_Data\db\client_files\t1f\" />
+    <Folder Include="App_Data\db\client_files\t20\" />
+    <Folder Include="App_Data\db\client_files\t21\" />
+    <Folder Include="App_Data\db\client_files\t22\" />
+    <Folder Include="App_Data\db\client_files\t23\" />
+    <Folder Include="App_Data\db\client_files\t24\" />
+    <Folder Include="App_Data\db\client_files\t25\" />
+    <Folder Include="App_Data\db\client_files\t26\" />
+    <Folder Include="App_Data\db\client_files\t27\" />
+    <Folder Include="App_Data\db\client_files\t28\" />
+    <Folder Include="App_Data\db\client_files\t29\" />
+    <Folder Include="App_Data\db\client_files\t2a\" />
+    <Folder Include="App_Data\db\client_files\t2b\" />
+    <Folder Include="App_Data\db\client_files\t2c\" />
+    <Folder Include="App_Data\db\client_files\t2d\" />
+    <Folder Include="App_Data\db\client_files\t2e\" />
+    <Folder Include="App_Data\db\client_files\t2f\" />
+    <Folder Include="App_Data\db\client_files\t30\" />
+    <Folder Include="App_Data\db\client_files\t31\" />
+    <Folder Include="App_Data\db\client_files\t32\" />
+    <Folder Include="App_Data\db\client_files\t33\" />
+    <Folder Include="App_Data\db\client_files\t34\" />
+    <Folder Include="App_Data\db\client_files\t35\" />
+    <Folder Include="App_Data\db\client_files\t36\" />
+    <Folder Include="App_Data\db\client_files\t37\" />
+    <Folder Include="App_Data\db\client_files\t38\" />
+    <Folder Include="App_Data\db\client_files\t39\" />
+    <Folder Include="App_Data\db\client_files\t3a\" />
+    <Folder Include="App_Data\db\client_files\t3b\" />
+    <Folder Include="App_Data\db\client_files\t3c\" />
+    <Folder Include="App_Data\db\client_files\t3d\" />
+    <Folder Include="App_Data\db\client_files\t3e\" />
+    <Folder Include="App_Data\db\client_files\t3f\" />
+    <Folder Include="App_Data\db\client_files\t40\" />
+    <Folder Include="App_Data\db\client_files\t41\" />
+    <Folder Include="App_Data\db\client_files\t42\" />
+    <Folder Include="App_Data\db\client_files\t43\" />
+    <Folder Include="App_Data\db\client_files\t44\" />
+    <Folder Include="App_Data\db\client_files\t45\" />
+    <Folder Include="App_Data\db\client_files\t46\" />
+    <Folder Include="App_Data\db\client_files\t47\" />
+    <Folder Include="App_Data\db\client_files\t48\" />
+    <Folder Include="App_Data\db\client_files\t49\" />
+    <Folder Include="App_Data\db\client_files\t4a\" />
+    <Folder Include="App_Data\db\client_files\t4b\" />
+    <Folder Include="App_Data\db\client_files\t4c\" />
+    <Folder Include="App_Data\db\client_files\t4d\" />
+    <Folder Include="App_Data\db\client_files\t4e\" />
+    <Folder Include="App_Data\db\client_files\t4f\" />
+    <Folder Include="App_Data\db\client_files\t50\" />
+    <Folder Include="App_Data\db\client_files\t51\" />
+    <Folder Include="App_Data\db\client_files\t52\" />
+    <Folder Include="App_Data\db\client_files\t53\" />
+    <Folder Include="App_Data\db\client_files\t54\" />
+    <Folder Include="App_Data\db\client_files\t55\" />
+    <Folder Include="App_Data\db\client_files\t56\" />
+    <Folder Include="App_Data\db\client_files\t57\" />
+    <Folder Include="App_Data\db\client_files\t58\" />
+    <Folder Include="App_Data\db\client_files\t59\" />
+    <Folder Include="App_Data\db\client_files\t5a\" />
+    <Folder Include="App_Data\db\client_files\t5b\" />
+    <Folder Include="App_Data\db\client_files\t5c\" />
+    <Folder Include="App_Data\db\client_files\t5d\" />
+    <Folder Include="App_Data\db\client_files\t5e\" />
+    <Folder Include="App_Data\db\client_files\t5f\" />
+    <Folder Include="App_Data\db\client_files\t60\" />
+    <Folder Include="App_Data\db\client_files\t61\" />
+    <Folder Include="App_Data\db\client_files\t62\" />
+    <Folder Include="App_Data\db\client_files\t63\" />
+    <Folder Include="App_Data\db\client_files\t64\" />
+    <Folder Include="App_Data\db\client_files\t65\" />
+    <Folder Include="App_Data\db\client_files\t66\" />
+    <Folder Include="App_Data\db\client_files\t67\" />
+    <Folder Include="App_Data\db\client_files\t68\" />
+    <Folder Include="App_Data\db\client_files\t69\" />
+    <Folder Include="App_Data\db\client_files\t6a\" />
+    <Folder Include="App_Data\db\client_files\t6b\" />
+    <Folder Include="App_Data\db\client_files\t6c\" />
+    <Folder Include="App_Data\db\client_files\t6d\" />
+    <Folder Include="App_Data\db\client_files\t6e\" />
+    <Folder Include="App_Data\db\client_files\t6f\" />
+    <Folder Include="App_Data\db\client_files\t70\" />
+    <Folder Include="App_Data\db\client_files\t71\" />
+    <Folder Include="App_Data\db\client_files\t72\" />
+    <Folder Include="App_Data\db\client_files\t73\" />
+    <Folder Include="App_Data\db\client_files\t74\" />
+    <Folder Include="App_Data\db\client_files\t75\" />
+    <Folder Include="App_Data\db\client_files\t76\" />
+    <Folder Include="App_Data\db\client_files\t77\" />
+    <Folder Include="App_Data\db\client_files\t78\" />
+    <Folder Include="App_Data\db\client_files\t79\" />
+    <Folder Include="App_Data\db\client_files\t7a\" />
+    <Folder Include="App_Data\db\client_files\t7b\" />
+    <Folder Include="App_Data\db\client_files\t7c\" />
+    <Folder Include="App_Data\db\client_files\t7d\" />
+    <Folder Include="App_Data\db\client_files\t7e\" />
+    <Folder Include="App_Data\db\client_files\t7f\" />
+    <Folder Include="App_Data\db\client_files\t80\" />
+    <Folder Include="App_Data\db\client_files\t81\" />
+    <Folder Include="App_Data\db\client_files\t82\" />
+    <Folder Include="App_Data\db\client_files\t83\" />
+    <Folder Include="App_Data\db\client_files\t84\" />
+    <Folder Include="App_Data\db\client_files\t85\" />
+    <Folder Include="App_Data\db\client_files\t86\" />
+    <Folder Include="App_Data\db\client_files\t87\" />
+    <Folder Include="App_Data\db\client_files\t88\" />
+    <Folder Include="App_Data\db\client_files\t89\" />
+    <Folder Include="App_Data\db\client_files\t8a\" />
+    <Folder Include="App_Data\db\client_files\t8b\" />
+    <Folder Include="App_Data\db\client_files\t8c\" />
+    <Folder Include="App_Data\db\client_files\t8d\" />
+    <Folder Include="App_Data\db\client_files\t8e\" />
+    <Folder Include="App_Data\db\client_files\t8f\" />
+    <Folder Include="App_Data\db\client_files\t90\" />
+    <Folder Include="App_Data\db\client_files\t91\" />
+    <Folder Include="App_Data\db\client_files\t92\" />
+    <Folder Include="App_Data\db\client_files\t93\" />
+    <Folder Include="App_Data\db\client_files\t94\" />
+    <Folder Include="App_Data\db\client_files\t95\" />
+    <Folder Include="App_Data\db\client_files\t96\" />
+    <Folder Include="App_Data\db\client_files\t97\" />
+    <Folder Include="App_Data\db\client_files\t98\" />
+    <Folder Include="App_Data\db\client_files\t99\" />
+    <Folder Include="App_Data\db\client_files\t9a\" />
+    <Folder Include="App_Data\db\client_files\t9b\" />
+    <Folder Include="App_Data\db\client_files\t9c\" />
+    <Folder Include="App_Data\db\client_files\t9d\" />
+    <Folder Include="App_Data\db\client_files\t9e\" />
+    <Folder Include="App_Data\db\client_files\t9f\" />
+    <Folder Include="App_Data\db\client_files\ta0\" />
+    <Folder Include="App_Data\db\client_files\ta1\" />
+    <Folder Include="App_Data\db\client_files\ta2\" />
+    <Folder Include="App_Data\db\client_files\ta3\" />
+    <Folder Include="App_Data\db\client_files\ta4\" />
+    <Folder Include="App_Data\db\client_files\ta5\" />
+    <Folder Include="App_Data\db\client_files\ta6\" />
+    <Folder Include="App_Data\db\client_files\ta7\" />
+    <Folder Include="App_Data\db\client_files\ta8\" />
+    <Folder Include="App_Data\db\client_files\ta9\" />
+    <Folder Include="App_Data\db\client_files\taa\" />
+    <Folder Include="App_Data\db\client_files\tab\" />
+    <Folder Include="App_Data\db\client_files\tac\" />
+    <Folder Include="App_Data\db\client_files\tad\" />
+    <Folder Include="App_Data\db\client_files\tae\" />
+    <Folder Include="App_Data\db\client_files\taf\" />
+    <Folder Include="App_Data\db\client_files\tb0\" />
+    <Folder Include="App_Data\db\client_files\tb1\" />
+    <Folder Include="App_Data\db\client_files\tb2\" />
+    <Folder Include="App_Data\db\client_files\tb3\" />
+    <Folder Include="App_Data\db\client_files\tb4\" />
+    <Folder Include="App_Data\db\client_files\tb5\" />
+    <Folder Include="App_Data\db\client_files\tb6\" />
+    <Folder Include="App_Data\db\client_files\tb7\" />
+    <Folder Include="App_Data\db\client_files\tb8\" />
+    <Folder Include="App_Data\db\client_files\tb9\" />
+    <Folder Include="App_Data\db\client_files\tba\" />
+    <Folder Include="App_Data\db\client_files\tbb\" />
+    <Folder Include="App_Data\db\client_files\tbc\" />
+    <Folder Include="App_Data\db\client_files\tbd\" />
+    <Folder Include="App_Data\db\client_files\tbe\" />
+    <Folder Include="App_Data\db\client_files\tbf\" />
+    <Folder Include="App_Data\db\client_files\tc0\" />
+    <Folder Include="App_Data\db\client_files\tc1\" />
+    <Folder Include="App_Data\db\client_files\tc2\" />
+    <Folder Include="App_Data\db\client_files\tc3\" />
+    <Folder Include="App_Data\db\client_files\tc4\" />
+    <Folder Include="App_Data\db\client_files\tc5\" />
+    <Folder Include="App_Data\db\client_files\tc7\" />
+    <Folder Include="App_Data\db\client_files\tc8\" />
+    <Folder Include="App_Data\db\client_files\tc9\" />
+    <Folder Include="App_Data\db\client_files\tca\" />
+    <Folder Include="App_Data\db\client_files\tcb\" />
+    <Folder Include="App_Data\db\client_files\tcc\" />
+    <Folder Include="App_Data\db\client_files\tcd\" />
+    <Folder Include="App_Data\db\client_files\tce\" />
+    <Folder Include="App_Data\db\client_files\tcf\" />
+    <Folder Include="App_Data\db\client_files\td0\" />
+    <Folder Include="App_Data\db\client_files\td1\" />
+    <Folder Include="App_Data\db\client_files\td2\" />
+    <Folder Include="App_Data\db\client_files\td3\" />
+    <Folder Include="App_Data\db\client_files\td4\" />
+    <Folder Include="App_Data\db\client_files\td5\" />
+    <Folder Include="App_Data\db\client_files\td6\" />
+    <Folder Include="App_Data\db\client_files\td7\" />
+    <Folder Include="App_Data\db\client_files\td8\" />
+    <Folder Include="App_Data\db\client_files\td9\" />
+    <Folder Include="App_Data\db\client_files\tda\" />
+    <Folder Include="App_Data\db\client_files\tdb\" />
+    <Folder Include="App_Data\db\client_files\tdc\" />
+    <Folder Include="App_Data\db\client_files\tdd\" />
+    <Folder Include="App_Data\db\client_files\tde\" />
+    <Folder Include="App_Data\db\client_files\tdf\" />
+    <Folder Include="App_Data\db\client_files\te0\" />
+    <Folder Include="App_Data\db\client_files\te1\" />
+    <Folder Include="App_Data\db\client_files\te2\" />
+    <Folder Include="App_Data\db\client_files\te3\" />
+    <Folder Include="App_Data\db\client_files\te4\" />
+    <Folder Include="App_Data\db\client_files\te5\" />
+    <Folder Include="App_Data\db\client_files\te6\" />
+    <Folder Include="App_Data\db\client_files\te7\" />
+    <Folder Include="App_Data\db\client_files\te8\" />
+    <Folder Include="App_Data\db\client_files\te9\" />
+    <Folder Include="App_Data\db\client_files\tea\" />
+    <Folder Include="App_Data\db\client_files\teb\" />
+    <Folder Include="App_Data\db\client_files\tec\" />
+    <Folder Include="App_Data\db\client_files\ted\" />
+    <Folder Include="App_Data\db\client_files\tee\" />
+    <Folder Include="App_Data\db\client_files\tef\" />
+    <Folder Include="App_Data\db\client_files\tf0\" />
+    <Folder Include="App_Data\db\client_files\tf1\" />
+    <Folder Include="App_Data\db\client_files\tf2\" />
+    <Folder Include="App_Data\db\client_files\tf3\" />
+    <Folder Include="App_Data\db\client_files\tf4\" />
+    <Folder Include="App_Data\db\client_files\tf5\" />
+    <Folder Include="App_Data\db\client_files\tf6\" />
+    <Folder Include="App_Data\db\client_files\tf7\" />
+    <Folder Include="App_Data\db\client_files\tf8\" />
+    <Folder Include="App_Data\db\client_files\tf9\" />
+    <Folder Include="App_Data\db\client_files\tfa\" />
+    <Folder Include="App_Data\db\client_files\tfb\" />
+    <Folder Include="App_Data\db\client_files\tfc\" />
+    <Folder Include="App_Data\db\client_files\tfd\" />
+    <Folder Include="App_Data\db\client_files\tfe\" />
+    <Folder Include="App_Data\db\client_files\tff\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
@@ -128,13 +676,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.props'))" />
     <Error Condition="!Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
-    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
-    <Error Condition="!Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets'))" />
   </Target>
   <Import Project="..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.2.0\build\net45\MSTest.TestAdapter.targets')" />
-  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
-  <Import Project="..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets" Condition="Exists('..\packages\Stub.System.Data.SQLite.Core.NetFramework.1.0.118.0\build\net46\Stub.System.Data.SQLite.Core.NetFramework.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

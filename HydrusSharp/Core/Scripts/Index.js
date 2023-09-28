@@ -10,6 +10,7 @@ var Index = (function () {
         this.numberOfFiles = ko.observable(0);
         this.filesPerPage = ko.observable(20);
         this.selectedPage = ko.observable(1);
+        this.loadingFiles = ko.observable(false);
         this.selectablePages = ko.computed(function () {
             var numberOfPages = Math.ceil(_this.numberOfFiles() / _this.filesPerPage());
             var selectablePages = [];
@@ -45,6 +46,8 @@ var Index = (function () {
         var firstItem = sessions[0].notebook().items().find(function (item) { return item.serialisableType() === 107; });
         if (typeof (firstItem) === "undefined") {
             firstItem = sessions[0].notebook().items()[0].items().find(function (item) { return item.serialisableType() === 107; });
+            deferred.resolve();
+            return deferred.promise();
         }
         this.loadHashedJsonDumpAsync(firstItem.hash())
             .then(function () {
@@ -74,13 +77,16 @@ var Index = (function () {
         var managementController = this.hashedJsonDump().managementController();
         var skip = (this.selectedPage() - 1) * this.filesPerPage();
         var take = this.filesPerPage();
+        this.loadingFiles(true);
         ClientProvider.getMatchingFileInfoAsync(managementController.mediaCollect(), managementController.mediaSort(), managementController.fileSearchContext().predicates(), skip, take)
             .then(function (paginatedFileInfos) {
             _this.numberOfFiles(paginatedFileInfos.count());
             _this.fileInfos(paginatedFileInfos.items());
+            _this.loadingFiles(false);
             deferred.resolve();
         })
             .fail(function () {
+            _this.loadingFiles(false);
             deferred.reject();
         });
         return deferred.promise();

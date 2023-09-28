@@ -10,6 +10,7 @@ class Index {
     public filesPerPage: ko.Observable<number>;
     public selectedPage: ko.Observable<number>;
     public selectablePages: ko.Computed<Array<number>>;
+    public loadingFiles: ko.Observable<boolean>;
 
     public constructor() {
 
@@ -22,6 +23,7 @@ class Index {
         this.numberOfFiles = ko.observable(0);
         this.filesPerPage = ko.observable(20);
         this.selectedPage = ko.observable(1);
+        this.loadingFiles = ko.observable(false);
         this.selectablePages = ko.computed(() => {
 
             const numberOfPages = Math.ceil(this.numberOfFiles() / this.filesPerPage());
@@ -77,6 +79,8 @@ class Index {
         if (typeof (firstItem) === "undefined") {
 
             firstItem = (sessions[0].notebook().items()[0] as GuiSessionContainerPageNotebook).items().find(item => item.serialisableType() === 107);
+            deferred.resolve();
+            return deferred.promise();
         }
 
         this.loadHashedJsonDumpAsync((firstItem as GuiSessionContainerPageSingle).hash())
@@ -117,16 +121,20 @@ class Index {
         const skip = (this.selectedPage() - 1) * this.filesPerPage();
         const take = this.filesPerPage();
 
+        this.loadingFiles(true);
+
         ClientProvider.getMatchingFileInfoAsync(managementController.mediaCollect(), managementController.mediaSort(), managementController.fileSearchContext().predicates(), skip, take)
             .then(paginatedFileInfos => {
 
                 this.numberOfFiles(paginatedFileInfos.count());
                 this.fileInfos(paginatedFileInfos.items());
+                this.loadingFiles(false);
 
                 deferred.resolve();
             })
             .fail(() => {
 
+                this.loadingFiles(false);
                 deferred.reject();
             });
 

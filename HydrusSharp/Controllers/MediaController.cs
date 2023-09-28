@@ -1,34 +1,29 @@
-﻿using HydrusSharp.DbContexts;
-using HydrusSharp.Models.ClientMaster;
-using HydrusSharp.Providers;
+﻿using HydrusSharp.Core.Enums;
+using HydrusSharp.Data.Models.ClientMaster;
+using HydrusSharp.Data.Repositories;
+using HydrusSharp.Data.Repositories.DataAccess;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HydrusSharp.Controllers
 {
     public class MediaController : Controller
     {
-        private ClientDbContext ClientDbContext { get; set; }
-        private ClientMasterDbContext ClientMasterDbContext { get; set; }
-
         public MediaController()
         {
-            ClientDbContext = new ClientDbContext();
-            ClientMasterDbContext = new ClientMasterDbContext();
         }
 
         [HttpGet]
         public ActionResult GetMedia(int hashId, bool isThumbnail)
         {
-            HashRepository hashRepository = new HashRepository(ClientMasterDbContext);
+            IHashRepository hashRepository = new DAHashRepository();
             Hash matchingHash = hashRepository.GetById(hashId);
 
-            DirectoryInfo clientFilesDirectory = new DirectoryInfo(ConfigurationManager.AppSettings["ClientFilesLocation"]);
+            DirectoryInfo clientFilesDirectory = new DirectoryInfo(Path.Combine(ConfigurationManager.AppSettings["HydrusNetworkDB"], "client_files"));
             if (!clientFilesDirectory.Exists)
             {
                 throw new InvalidOperationException("Could not find the client files directory");
@@ -39,12 +34,17 @@ namespace HydrusSharp.Controllers
             IEnumerable<FileInfo> matchingMedias = files.Where(media => media.Name.Substring(0, media.Name.Length - media.Extension.Length) == matchingHash.HashString);
             FileInfo matchingMedia = matchingMedias.FirstOrDefault(media => (media.Extension == ".thumbnail") == isThumbnail);
 
+
             if (matchingMedia == null)
             {
                 return new HttpStatusCodeResult(404, "Media item not found");
             }
 
-            return new FileStreamResult(matchingMedia.OpenRead(), "application/octet-stream");
+            IFileRepository fileRepository = new DAFileRepository();
+            MimeType mimeType = fileRepository.GetMimeType(hashId);
+
+
+            return new FileStreamResult(matchingMedia.OpenRead(), mimeType.ToString().Replace("_", "/"));
         }
     }
 }
