@@ -61,6 +61,7 @@ var Index = (function () {
     Index.prototype.loadHashedJsonDumpAsync = function (hash) {
         var _this = this;
         var deferred = $.Deferred();
+        this.selectedPage(1);
         ClientProvider.getHashedJsonDumpAsync(hash)
             .then(function (hashedJsonDump) {
             _this.hashedJsonDump(hashedJsonDump);

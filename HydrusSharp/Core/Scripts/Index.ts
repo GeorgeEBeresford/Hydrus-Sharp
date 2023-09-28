@@ -100,6 +100,8 @@ class Index {
 
         const deferred: JQueryDeferred<void> = $.Deferred();
 
+        this.selectedPage(1);
+
         ClientProvider.getHashedJsonDumpAsync(hash)
             .then(hashedJsonDump => {
 

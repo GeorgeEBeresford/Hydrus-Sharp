@@ -4,8 +4,10 @@ using HydrusSharp.Data.Models.ClientMappings;
 using HydrusSharp.Data.Models.ClientMaster;
 using HydrusSharp.Data.Models.ViewModels;
 using HydrusSharp.Data.Services;
+using Microsoft.Data.Sqlite;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace HydrusSharp.Data.Repositories.DataAccess
@@ -28,25 +30,62 @@ namespace HydrusSharp.Data.Repositories.DataAccess
 
         public int GetMappingsCount(SearchPredicateViewModel[] filters)
         {
-            string mappingsSql = $"WITH FilteredMappings AS ({GenerateFilteringSql(filters)}) SELECT COUNT(*) AS TotalItems FROM FilteredMappings";
+            string mappingsSql = PrepareAttachmentSql() +
+                PrepareCommonTableExpression(false) +
+                @", countable_results AS (
+                        SELECT *
+                        FROM current_mappings
+                        INNER JOIN filterable_tags ON filterable_tags.hash_id = current_mappings.hash_id" +
+                        GenerateFilteringSql(filters) +
+                     @" GROUP BY current_mappings.hash_id
+                ) SELECT COUNT(*) AS TotalItems FROM countable_results" +
+                PrepareDetachmentSql();
 
             DbRow mappingRow;
             using (DbContext dbContext = new DbContext(ConnectionStringService.GetConnectionString("ClientMappings")))
             {
-                mappingRow = dbContext.GetDataRow(mappingsSql);
+                try
+                {
+                    mappingRow = dbContext.GetDataRow(mappingsSql);
+                }
+                catch (SqliteException)
+                {
+                    // We don't want to leave the database in a "in use" state
+                    dbContext.GetDataRow(PrepareDetachmentSql());
+                    throw;
+                }
             }
 
-            return Convert.ToInt32(mappingRow.GetColumnValue("TotalItems"));
+            return mappingRow != null ? Convert.ToInt32(mappingRow.GetColumnValue("TotalItems")) : 0;
         }
 
         public IEnumerable<CurrentMapping> GetMatchingMappings(MediaCollectViewModel collect, MediaSortViewModel sort, SearchPredicateViewModel[] filters, int skip, int take)
         {
-            string mappingsSql = GenerateFilteringSql(filters) + $" LIMIT {take} OFFSET {skip}";
+            string mappingsSql = PrepareAttachmentSql() +
+                PrepareCommonTableExpression(false) +
+                @"SELECT current_mappings.*
+                  FROM current_mappings
+                  INNER JOIN client.files_info ON files_info.hash_id = current_mappings.hash_id
+                  INNER JOIN filterable_tags ON filterable_tags.hash_id = current_mappings.hash_id" +
+                  GenerateFilteringSql(filters) +
+                  GenerateSortingSql(sort) +
+                  " GROUP BY current_mappings.hash_id" +
+                  $" LIMIT {take} OFFSET {skip}" +
+                  PrepareDetachmentSql();
 
             IEnumerable<DbRow> mappingRows;
             using (DbContext dbContext = new DbContext(ConnectionStringService.GetConnectionString("ClientMappings")))
             {
-                mappingRows = dbContext.GetDataRows(mappingsSql);
+                try
+                {
+                    mappingRows = dbContext.GetDataRows(mappingsSql);
+                }
+                catch (SqliteException)
+                {
+                    // We don't want to leave the database in a "in use" state
+                    dbContext.GetDataRow(PrepareDetachmentSql());
+                    throw;
+                }
             }
 
             return mappingRows
@@ -57,68 +96,131 @@ namespace HydrusSharp.Data.Repositories.DataAccess
                 });
         }
 
-        private string GenerateFilteringSql(SearchPredicateViewModel[] filters)
+        private string PrepareAttachmentSql()
+        {
+            string attachmentSql = $@"; ATTACH DATABASE '{ConfigurationManager.AppSettings["HydrusNetworkDB"]}\\client.db' AS 'client'
+                                      ; ATTACH DATABASE '{ConfigurationManager.AppSettings["HydrusNetworkDB"]}\\client.master.db' AS 'client.master'";
+
+            return attachmentSql;
+        }
+
+        private string PrepareDetachmentSql()
+        {
+            string detachmentSql = $@"; DETACH DATABASE 'client'
+                                      ; DETACH DATABASE 'client.master'";
+
+            return detachmentSql;
+        }
+
+        private string GenerateSortingSql(MediaSortViewModel sort)
+        {
+            switch (sort.SystemSortType)
+            {
+                case SortFilesBy.SORT_FILES_BY_NUM_PIXELS:
+
+                    return " ORDER BY files_info.width * files_info.height DESC";
+
+                default:
+
+                    return "";
+            }
+        }
+
+        private string PrepareCommonTableExpression(bool includeDeletedFiles)
         {
             // Todo - Filters should eventually specify which services to retrieve from
-            int[] searchedServices = new[] { 9, 10 };
+            List<int> searchedFileServices = new List<int> {
+                6 // my files service
+            };
+            int[] searchedTagServices = new[] {
+                9, // local tags
+                10 // downloader tags
+            };
+
+            if (includeDeletedFiles)
+            {
+                searchedFileServices.Add(3); // all deleted files service
+            }
+
+            IEnumerable<string> searchedCurrentFilesSqls = searchedFileServices.Select(serviceId => $"SELECT *, {serviceId} AS file_service_id FROM current_files_{serviceId}");
+
+            // Filter out any deleted files
+            IEnumerable<string> searchedMappingsSqls = searchedTagServices.Select(serviceId => $"SELECT *, {serviceId} AS tag_service_id FROM current_mappings_{serviceId} INNER JOIN current_files ON current_mappings_{serviceId}.hash_id = current_files.hash_id");
+
+            string sql = $@"; WITH
+                                current_files AS (
+                                    {string.Join(" UNION ", searchedCurrentFilesSqls)}
+                                ),
+                                current_mappings AS (
+                                    {string.Join(" UNION ", searchedMappingsSqls)}
+                                ),
+                                tags_with_parents AS (
+	                                SELECT
+		                                tags.tag_id,
+		                                tag_parents.parent_tag_id
+	                                FROM tags
+	                                LEFT JOIN tag_parents ON tags.tag_id = tag_parents.child_tag_id
+	                                WHERE tag_parents.status IS NULL OR tag_parents.status == 0
+                                ),
+                                tags_with_ancestors AS (
+	                                SELECT
+		                                tag_id,
+		                                parent_tag_id
+	                                FROM tags_with_parents
+	                                UNION ALL
+	                                SELECT
+		                                tags_with_parents.tag_id,
+		                                tags_with_ancestors.parent_tag_id
+	                                FROM tags_with_ancestors
+	                                JOIN tags_with_parents ON tags_with_ancestors.tag_id = tags_with_parents.parent_tag_id
+                                ),
+                                filterable_tags AS (
+                                    SELECT
+	                                    current_mappings.hash_id,
+		                                '|' || GROUP_CONCAT(tags_with_ancestors.tag_id , '|') || '|' || COALESCE(GROUP_CONCAT(tags_with_ancestors.parent_tag_id , '|'), '') || '|' as flattened_tags
+                                    FROM current_mappings
+                                    INNER JOIN tags_with_ancestors ON tags_with_ancestors.tag_id = current_mappings.tag_id
+                                    GROUP BY current_mappings.hash_id
+                                )";
+
+            return sql;
+        }
+
+        private string GenerateFilteringSql(SearchPredicateViewModel[] filters)
+        {
+            // If they haven't requested any filters (even system:everything) then return no files
+            if (filters == null)
+            {
+                return " WHERE 1=2";
+            }
 
             // We want to return mappings from all of the requested services
-            string[] searchedServiceSqls = searchedServices.Select(serviceId => $"SELECT * FROM current_mappings_{serviceId} WHERE 1=1").ToArray();
+            string sql = " WHERE 1=1";
 
             foreach (SearchPredicateViewModel filter in filters)
             {
                 if (filter.SearchType == PredicateType.PREDICATE_TYPE_TAG)
                 {
-                    IEnumerable<int> matchingTags = GetMatchingTagIds((string)filter.SearchData[0]);
-                    
-                    for (int sqlIndex = 0; sqlIndex < searchedServiceSqls.Length; sqlIndex++)
+                    ITagRepository tagRepository = new DATagRepository();
+                    Tag matchingTag = tagRepository.GetTag(filter.SearchData[0] as string);
+
+                    if (matchingTag == null)
                     {
-                        if (!matchingTags.Any())
-                        {
-                            // We couldn't actually find the tag we're looking for. Logically, there can be no mappings that match a non-existent tag
-                            searchedServiceSqls[sqlIndex] += " AND 1=2";
-                        }
-                        else if (filter.MustBeTrue)
-                        {
-                            searchedServiceSqls[sqlIndex] += $" AND (tag_id IN ({string.Join(",", matchingTags)}) OR tag_id IN ({string.Join(",", matchingTags)}))";
-                        }
-                        else
-                        {
-                            searchedServiceSqls[sqlIndex] += $" AND (tag_id NOT IN ({string.Join(",", matchingTags)}) AND tag_id NOT IN ({string.Join(",", matchingTags)}))";
-                        }
+                        // We couldn't actually find the tag we're looking for. Logically, there can be no mappings that match a non-existent tag
+                        sql += " AND 1=2";
+                    }
+                    else if (filter.MustBeTrue)
+                    {
+                        sql += $" AND flattened_tags LIKE '%|{matchingTag.TagId}|%'";
+                    }
+                    else
+                    {
+                        sql += $" AND flattened_tags NOT LIKE '%|{matchingTag.TagId}|%'";
                     }
                 }
             }
 
-            string unionisedSql = string.Join(" UNION ", searchedServiceSqls);
-
-            return unionisedSql;
-        }
-
-        /// <summary>
-        /// Retrieves any parents and siblings of the tag (along with the original tag)
-        /// </summary>
-        /// <param name="searchedTags"></param>
-        /// <returns></returns>
-        private IEnumerable<int> GetMatchingTagIds(string tagName)
-        {
-            ITagRepository tagRepository = new DATagRepository();
-
-            Tag matchingTag = tagRepository.GetTag(tagName);
-
-            // If we can't find a matching tag, we won't be able to find any children
-            if (matchingTag == null)
-            {
-                return new int[0];
-            }
-
-            IEnumerable<Tag> matchingChildren = tagRepository.GetTagChildren(matchingTag.TagId).ToList();
-
-            // Search for any files which match the tag as a direct mapping, parent mapping or sibling mapping
-            List<int> searchedTagIds = matchingChildren.Select(tag => tag.TagId).ToList();
-            searchedTagIds.Add(matchingTag.TagId);
-
-            return searchedTagIds;
+            return sql;
         }
     }
 }

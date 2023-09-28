@@ -25,6 +25,7 @@ namespace DataAccessLayer
         public DbContext(string connectionString)
         {
             Connection = new SqliteConnection(connectionString);
+
             Batteries.Init(); // Sets the SQLite provider
             Connection.Open();
         }
@@ -97,6 +98,7 @@ namespace DataAccessLayer
                     await dataReader.ReadAsync().ConfigureAwait(false);
 
                     DbRow dataRow = new DbRow(dataReader);
+
                     return dataRow;
                 }
 
@@ -194,8 +196,7 @@ namespace DataAccessLayer
         /// <returns></returns>
         private DbDataReader GenerateDataReader(string sql, IEnumerable<DbParameter> parameters)
         {
-            SqliteTransaction transaction = Connection.BeginTransaction();
-            DbCommand command = new SqliteCommand(sql, Connection, transaction)
+            DbCommand command = new SqliteCommand(sql, Connection)
             {
                 CommandType = CommandType.Text
             };
@@ -206,6 +207,7 @@ namespace DataAccessLayer
             }
 
             DbDataReader dataReader = command.ExecuteReader();
+
             return dataReader;
         }
 
@@ -217,12 +219,9 @@ namespace DataAccessLayer
         /// <returns></returns>
         private async Task<DbDataReader> GenerateDataReaderAsync(string sql, IEnumerable<DbParameter> parameters)
         {
-            Batteries.Init(); // Sets the SQLite provider
-
             await Connection.OpenAsync().ConfigureAwait(false);
 
-            SqliteTransaction transaction = Connection.BeginTransaction();
-            DbCommand command = new SqliteCommand(sql, Connection, transaction)
+            DbCommand command = new SqliteCommand(sql, Connection)
             {
                 CommandType = CommandType.Text
             };
@@ -233,6 +232,7 @@ namespace DataAccessLayer
             }
 
             DbDataReader dataReader = await command.ExecuteReaderAsync().ConfigureAwait(false);
+
             return dataReader;
         }
     }

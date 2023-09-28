@@ -90,7 +90,7 @@
             <ol class="d-flex flex-row flex-wrap list-unstyled">
                 <!-- ko foreach: fileInfos -->
                 <li data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; margin-right: 10px` }">
-                    <a class="figure" data-bind="attr: { href: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=false` }">
+                    <a class="figure" target="_blank" data-bind="attr: { href: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=false` }">
                         <div class="figure-img img-thumbnail d-flex flex-column justify-content-around overflow-hidden position-relative" data-bind="attr: { style: `width: ${$root.thumbnailWidth()}px; height: ${$root.thumbnailHeight()}px;` }">
                             <img class="flex-grow-0 text-center fs-1 lh-lg bg-danger-subtle" data-bind="attr: { srcset: `@Url.Action("GetMedia", "Media")?hashId=${hashId()}&isThumbnail=true` }" style="width: 100%" alt="Missing Item" />
                         </div>

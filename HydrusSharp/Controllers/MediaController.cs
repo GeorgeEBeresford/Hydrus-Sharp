@@ -43,8 +43,15 @@ namespace HydrusSharp.Controllers
             IFileRepository fileRepository = new DAFileRepository();
             MimeType mimeType = fileRepository.GetMimeType(hashId);
 
+            IMappingRepository mappingRepository = new DAMappingRepository();
+
+            // Downloads the file instead of setting the tab title. Leave as-is for now
+            //string title = mappingRepository.GetFileTitle(hashId) ?? $"Media (Hash {hashId})";
 
             return new FileStreamResult(matchingMedia.OpenRead(), mimeType.ToString().Replace("_", "/"));
+            //{
+            //    FileDownloadName = title
+            //};
         }
     }
 }
