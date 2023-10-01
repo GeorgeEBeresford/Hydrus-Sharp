@@ -27,8 +27,9 @@ namespace HydrusSharp.Data.Repositories
         /// <summary>
         /// Gets the number of mappings that match the criteria
         /// </summary>
+        /// <param name="collect"></param>
         /// <param name="filters"></param>
         /// <returns></returns>
-        int GetMappingsCount(SearchPredicateViewModel[] filters);
+        int GetMappingsCount(MediaCollectViewModel collect, SearchPredicateViewModel[] filters);
     }
 }

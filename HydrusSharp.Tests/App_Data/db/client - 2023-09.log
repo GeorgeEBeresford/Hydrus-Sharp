@@ -1,0 +1,342 @@
+﻿v530, 2023/09/22 20:14:18: hydrus client started
+v530, 2023/09/22 20:14:19: booting controller…
+v530, 2023/09/22 20:14:19: booting db…
+v530, 2023/09/22 20:14:21: checking database
+v530, 2023/09/22 20:14:21: preparing db caches
+v530, 2023/09/22 20:14:21: initialising managers
+v530, 2023/09/22 20:14:22: booting gui…
+v530, 2023/09/22 20:14:22: Hi, this looks like the first time you have started the hydrus client.
+
+Don't forget to check out the help if you haven't already, by clicking help->help--it has an extensive 'getting started' section, including how to update and the importance of backing up your database.
+
+To dismiss popup messages like this, right-click them.
+v530, 2023/09/22 20:16:20: Import folder import folder imported 1 files.
+v530, 2023/09/22 20:17:03: shutting down gui…
+v530, 2023/09/22 20:17:03: waiting for managers to exit
+v530, 2023/09/22 20:17:03: waiting for workers to exit
+v530, 2023/09/22 20:17:03: waiting for idle shutdown work
+v530, 2023/09/22 20:17:03: analyzing notes_fts4_segments
+v530, 2023/09/22 20:17:03: analyzing petitioned_mappings_10
+v530, 2023/09/22 20:17:03: analyzing specific_display_ac_cache_8_9
+v530, 2023/09/22 20:17:03: analyzing specific_deleted_mappings_cache_6_9
+v530, 2023/09/22 20:17:03: analyzing current_files_7
+v530, 2023/09/22 20:17:03: analyzing shape_maintenance_branch_regen
+v530, 2023/09/22 20:17:03: analyzing pending_files_7
+v530, 2023/09/22 20:17:03: analyzing actual_tag_parents_lookup_cache_9
+v530, 2023/09/22 20:17:03: analyzing deleted_files_6
+v530, 2023/09/22 20:17:03: analyzing specific_subtags_searchable_map_cache_3_10
+v530, 2023/09/22 20:17:03: analyzing specific_subtags_fts4_cache_3_9_segments
+v530, 2023/09/22 20:17:03: analyzing tag_parent_application
+v530, 2023/09/22 20:17:03: analyzing specific_pending_mappings_cache_3_9
+v530, 2023/09/22 20:17:03: analyzing local_incdec_ratings
+v530, 2023/09/22 20:17:03: analyzing specific_ac_cache_3_10
+v530, 2023/09/22 20:17:03: analyzing specific_subtags_fts4_cache_3_9_stat
+v530, 2023/09/22 20:17:04: analyzing specific_display_current_mappings_cache_5_9
+v530, 2023/09/22 20:17:04: analyzing specific_current_mappings_cache_5_9
+v530, 2023/09/22 20:17:04: analyzing pending_files_6
+v530, 2023/09/22 20:17:04: analyzing specific_display_pending_mappings_cache_8_10
+v530, 2023/09/22 20:17:04: analyzing notes_fts4_stat
+v530, 2023/09/22 20:17:04: analyzing analyze_timestamps
+v530, 2023/09/22 20:17:04: analyzing specific_subtags_fts4_cache_4_10_content
+v530, 2023/09/22 20:17:04: analyzing current_mappings_10
+v530, 2023/09/22 20:17:04: analyzing specific_pending_mappings_cache_4_10
+v530, 2023/09/22 20:17:04: analyzing specific_pending_mappings_cache_5_10
+v530, 2023/09/22 20:17:04: analyzing combined_files_subtags_searchable_map_cache_10
+v530, 2023/09/22 20:17:04: analyzing specific_deleted_mappings_cache_8_9
+v530, 2023/09/22 20:17:04: analyzing specific_ac_cache_8_9
+v530, 2023/09/22 20:17:04: analyzing specific_display_pending_mappings_cache_5_9
+v530, 2023/09/22 20:17:04: analyzing specific_subtags_fts4_cache_4_9_stat
+v530, 2023/09/22 20:17:04: analyzing current_mappings_9
+v530, 2023/09/22 20:17:04: analyzing services
+v530, 2023/09/22 20:17:04: analyzing specific_subtags_fts4_cache_4_9_segments
+v530, 2023/09/22 20:17:04: analyzing file_viewing_stats
+v530, 2023/09/22 20:17:04: analyzing specific_pending_mappings_cache_8_9
+v530, 2023/09/22 20:17:04: analyzing file_notes
+v530, 2023/09/22 20:17:04: analyzing deleted_files_3
+v530, 2023/09/22 20:17:04: analyzing specific_ac_cache_5_10
+v530, 2023/09/22 20:17:04: analyzing combined_files_integer_subtags_cache_9
+v530, 2023/09/22 20:17:04: analyzing specific_subtags_searchable_map_cache_3_9
+v530, 2023/09/22 20:17:04: analyzing file_inbox
+v530, 2023/09/22 20:17:04: analyzing remote_thumbnails
+v530, 2023/09/22 20:17:04: analyzing specific_display_ac_cache_4_9
+v530, 2023/09/22 20:17:04: analyzing specific_deleted_mappings_cache_5_9
+v530, 2023/09/22 20:17:04: analyzing tags
+v530, 2023/09/22 20:17:04: analyzing combined_files_subtags_fts4_cache_10
+v530, 2023/09/22 20:17:04: analyzing deleted_files_8
+v530, 2023/09/22 20:17:05: analyzing specific_subtags_fts4_cache_4_10_docsize
+v530, 2023/09/22 20:17:05: analyzing specific_ac_cache_8_10
+v530, 2023/09/22 20:17:05: analyzing specific_subtags_fts4_cache_4_9
+v530, 2023/09/22 20:17:05: analyzing specific_ac_cache_5_9
+v530, 2023/09/22 20:17:05: analyzing pending_mappings_9
+v530, 2023/09/22 20:17:05: analyzing ideal_tag_parents_lookup_cache_9
+v530, 2023/09/22 20:17:05: analyzing specific_pending_mappings_cache_6_10
+v530, 2023/09/22 20:17:05: analyzing specific_deleted_mappings_cache_4_9
+v530, 2023/09/22 20:17:05: analyzing pending_mappings_10
+v530, 2023/09/22 20:17:05: analyzing specific_subtags_fts4_cache_3_9
+v530, 2023/09/22 20:17:05: analyzing yaml_dumps
+v530, 2023/09/22 20:17:05: analyzing specific_display_ac_cache_6_10
+v530, 2023/09/22 20:17:05: analyzing ideal_thumbnail_override_location
+v530, 2023/09/22 20:17:05: analyzing tag_siblings
+v530, 2023/09/22 20:17:05: analyzing combined_files_tags_cache_10
+v530, 2023/09/22 20:17:05: analyzing local_ratings
+v530, 2023/09/22 20:17:05: analyzing deleted_files_4
+v530, 2023/09/22 20:17:05: analyzing current_files_3
+v530, 2023/09/22 20:17:05: analyzing specific_display_ac_cache_6_9
+v530, 2023/09/22 20:17:05: analyzing has_icc_profile
+v530, 2023/09/22 20:17:05: analyzing specific_subtags_fts4_cache_4_10_stat
+v530, 2023/09/22 20:17:05: analyzing ideal_tag_parents_lookup_cache_10
+v530, 2023/09/22 20:17:05: analyzing specific_pending_mappings_cache_5_9
+v530, 2023/09/22 20:17:05: analyzing duplicate_false_positives
+v530, 2023/09/22 20:17:05: analyzing json_dumps_hashed
+v530, 2023/09/22 20:17:05: analyzing specific_display_pending_mappings_cache_8_9
+v530, 2023/09/22 20:17:05: analyzing tag_parent_petitions
+v530, 2023/09/22 20:17:05: analyzing local_hashes
+v530, 2023/09/22 20:17:05: analyzing specific_display_current_mappings_cache_8_9
+v530, 2023/09/22 20:17:05: analyzing petitioned_files_3
+v530, 2023/09/22 20:17:05: analyzing service_info
+v530, 2023/09/22 20:17:05: analyzing specific_pending_mappings_cache_4_9
+v530, 2023/09/22 20:17:06: analyzing specific_ac_cache_3_9
+v530, 2023/09/22 20:17:06: analyzing combined_files_integer_subtags_cache_10
+v530, 2023/09/22 20:17:06: analyzing client_files_locations
+v530, 2023/09/22 20:17:06: analyzing specific_current_mappings_cache_6_10
+v530, 2023/09/22 20:17:06: analyzing specific_deleted_mappings_cache_7_9
+v530, 2023/09/22 20:17:06: analyzing combined_files_subtags_fts4_cache_9_docsize
+v530, 2023/09/22 20:17:06: analyzing specific_display_ac_cache_5_10
+v530, 2023/09/22 20:17:06: analyzing actual_tag_parents_lookup_cache_10
+v530, 2023/09/22 20:17:06: analyzing petitioned_files_4
+v530, 2023/09/22 20:17:06: analyzing combined_files_subtags_fts4_cache_9_content
+v530, 2023/09/22 20:17:06: analyzing current_files_8
+v530, 2023/09/22 20:17:06: analyzing specific_deleted_mappings_cache_8_10
+v530, 2023/09/22 20:17:06: analyzing specific_display_pending_mappings_cache_7_9
+v530, 2023/09/22 20:17:06: analyzing deferred_physical_file_deletes
+v530, 2023/09/22 20:17:06: analyzing specific_ac_cache_7_9
+v530, 2023/09/22 20:17:06: analyzing version
+v530, 2023/09/22 20:17:06: analyzing specific_ac_cache_6_9
+v530, 2023/09/22 20:17:06: analyzing specific_pending_mappings_cache_6_9
+v530, 2023/09/22 20:17:06: analyzing specific_display_pending_mappings_cache_4_9
+v530, 2023/09/22 20:17:06: analyzing specific_deleted_mappings_cache_6_10
+v530, 2023/09/22 20:17:06: analyzing specific_tags_cache_3_9
+v530, 2023/09/22 20:17:06: analyzing specific_subtags_fts4_cache_4_10
+v530, 2023/09/22 20:17:06: analyzing specific_display_pending_mappings_cache_3_10
+v530, 2023/09/22 20:17:06: analyzing actual_tag_siblings_lookup_cache_9
+v530, 2023/09/22 20:17:06: analyzing specific_display_current_mappings_cache_4_10
+v530, 2023/09/22 20:17:06: analyzing local_file_deletion_reasons
+v530, 2023/09/22 20:17:06: analyzing ideal_tag_siblings_lookup_cache_9
+v530, 2023/09/22 20:17:06: analyzing pending_files_4
+v530, 2023/09/22 20:17:06: analyzing combined_files_subtags_fts4_cache_9_segments
+v530, 2023/09/22 20:17:06: analyzing specific_display_pending_mappings_cache_4_10
+v530, 2023/09/22 20:17:06: analyzing specific_subtags_fts4_cache_3_10_segments
+v530, 2023/09/22 20:17:07: analyzing file_domain_modified_timestamps
+v530, 2023/09/22 20:17:07: analyzing specific_subtags_fts4_cache_3_10_stat
+v530, 2023/09/22 20:17:07: analyzing specific_display_pending_mappings_cache_6_9
+v530, 2023/09/22 20:17:07: analyzing specific_deleted_mappings_cache_3_10
+v530, 2023/09/22 20:17:07: analyzing specific_ac_cache_6_10
+v530, 2023/09/22 20:17:07: analyzing service_directory_file_map
+v530, 2023/09/22 20:17:07: analyzing specific_subtags_fts4_cache_4_9_segdir
+v530, 2023/09/22 20:17:07: analyzing url_domains
+v530, 2023/09/22 20:17:07: analyzing combined_files_display_ac_cache_10
+v530, 2023/09/22 20:17:07: analyzing specific_display_ac_cache_5_9
+v530, 2023/09/22 20:17:07: analyzing confirmed_alternate_pairs
+v530, 2023/09/22 20:17:07: analyzing specific_subtags_fts4_cache_3_10
+v530, 2023/09/22 20:17:07: analyzing specific_display_pending_mappings_cache_6_10
+v530, 2023/09/22 20:17:07: analyzing combined_files_subtags_fts4_cache_9_segdir
+v530, 2023/09/22 20:17:07: analyzing deferred_physical_thumbnail_deletes
+v530, 2023/09/22 20:17:07: analyzing vacuum_timestamps
+v530, 2023/09/22 20:17:07: analyzing combined_files_subtags_searchable_map_cache_9
+v530, 2023/09/22 20:17:07: analyzing current_files_4
+v530, 2023/09/22 20:17:07: analyzing specific_display_current_mappings_cache_5_10
+v530, 2023/09/22 20:17:07: analyzing local_hashes_cache
+v530, 2023/09/22 20:17:07: analyzing specific_display_current_mappings_cache_4_9
+v530, 2023/09/22 20:17:07: analyzing labels
+v530, 2023/09/22 20:17:07: analyzing combined_files_subtags_fts4_cache_10_stat
+v530, 2023/09/22 20:17:07: analyzing specific_display_current_mappings_cache_6_9
+v530, 2023/09/22 20:17:07: analyzing specific_subtags_fts4_cache_4_10_segdir
+v530, 2023/09/22 20:17:07: analyzing specific_current_mappings_cache_3_9
+v530, 2023/09/22 20:17:07: analyzing petitioned_mappings_9
+v530, 2023/09/22 20:17:07: analyzing deleted_files_7
+v530, 2023/09/22 20:17:07: analyzing notes_fts4
+v530, 2023/09/22 20:17:07: analyzing specific_subtags_fts4_cache_3_10_docsize
+v530, 2023/09/22 20:17:07: analyzing specific_current_mappings_cache_4_10
+v530, 2023/09/22 20:17:07: analyzing shape_vptree
+v530, 2023/09/22 20:17:08: analyzing archive_timestamps
+v530, 2023/09/22 20:17:08: analyzing specific_display_ac_cache_3_10
+v530, 2023/09/22 20:17:08: analyzing combined_files_display_ac_cache_9
+v530, 2023/09/22 20:17:08: analyzing specific_display_current_mappings_cache_8_10
+v530, 2023/09/22 20:17:08: analyzing potential_duplicate_pairs
+v530, 2023/09/22 20:17:08: analyzing specific_subtags_fts4_cache_4_10_segments
+v530, 2023/09/22 20:17:08: analyzing specific_display_ac_cache_3_9
+v530, 2023/09/22 20:17:08: analyzing specific_display_pending_mappings_cache_5_10
+v530, 2023/09/22 20:17:08: analyzing actual_tag_siblings_lookup_cache_10
+v530, 2023/09/22 20:17:08: analyzing combined_files_subtags_fts4_cache_10_segments
+v530, 2023/09/22 20:17:08: analyzing ideal_tag_siblings_lookup_cache_10
+v530, 2023/09/22 20:17:08: analyzing has_exif
+v530, 2023/09/22 20:17:08: analyzing specific_current_mappings_cache_7_9
+v530, 2023/09/22 20:17:08: analyzing specific_subtags_fts4_cache_3_9_segdir
+v530, 2023/09/22 20:17:08: analyzing combined_files_subtags_fts4_cache_9_stat
+v530, 2023/09/22 20:17:08: analyzing specific_subtags_searchable_map_cache_4_10
+v530, 2023/09/22 20:17:08: analyzing specific_deleted_mappings_cache_3_9
+v530, 2023/09/22 20:17:08: analyzing specific_subtags_fts4_cache_3_10_segdir
+v530, 2023/09/22 20:17:08: analyzing urls
+v530, 2023/09/22 20:17:08: analyzing deleted_mappings_9
+v530, 2023/09/22 20:17:08: analyzing petitioned_files_8
+v530, 2023/09/22 20:17:08: analyzing specific_tags_cache_3_10
+v530, 2023/09/22 20:17:08: analyzing pending_files_5
+v530, 2023/09/22 20:17:08: analyzing specific_display_ac_cache_8_10
+v530, 2023/09/22 20:17:08: analyzing specific_current_mappings_cache_7_10
+v530, 2023/09/22 20:17:08: analyzing last_shutdown_work_time
+v530, 2023/09/22 20:17:08: analyzing hashes
+v530, 2023/09/22 20:17:08: analyzing has_human_readable_embedded_metadata
+v530, 2023/09/22 20:17:08: analyzing subtags
+v530, 2023/09/22 20:17:08: analyzing specific_pending_mappings_cache_7_10
+v530, 2023/09/22 20:17:08: analyzing notes_fts4_segdir
+v530, 2023/09/22 20:17:08: analyzing file_maintenance_jobs
+v530, 2023/09/22 20:17:08: analyzing specific_tags_cache_4_9
+v530, 2023/09/22 20:17:08: analyzing specific_integer_subtags_cache_4_10
+v530, 2023/09/22 20:17:08: analyzing sqlite_sequence
+v530, 2023/09/22 20:17:08: analyzing specific_current_mappings_cache_3_10
+v530, 2023/09/22 20:17:09: analyzing ideal_client_files_locations
+v530, 2023/09/22 20:17:09: analyzing specific_deleted_mappings_cache_4_10
+v530, 2023/09/22 20:17:09: analyzing combined_files_subtags_fts4_cache_10_content
+v530, 2023/09/22 20:17:09: analyzing deleted_files_5
+v530, 2023/09/22 20:17:09: analyzing petitioned_files_5
+v530, 2023/09/22 20:17:09: analyzing specific_subtags_fts4_cache_4_9_content
+v530, 2023/09/22 20:17:09: analyzing specific_pending_mappings_cache_8_10
+v530, 2023/09/22 20:17:09: analyzing specific_integer_subtags_cache_3_9
+v530, 2023/09/22 20:17:09: analyzing specific_current_mappings_cache_4_9
+v530, 2023/09/22 20:17:09: analyzing options
+v530, 2023/09/22 20:17:09: analyzing files_info
+v530, 2023/09/22 20:17:09: analyzing specific_subtags_fts4_cache_4_9_docsize
+v530, 2023/09/22 20:17:09: analyzing specific_display_ac_cache_7_10
+v530, 2023/09/22 20:17:09: analyzing combined_files_subtags_fts4_cache_10_docsize
+v530, 2023/09/22 20:17:09: analyzing specific_integer_subtags_cache_3_10
+v530, 2023/09/22 20:17:09: analyzing specific_display_pending_mappings_cache_3_9
+v530, 2023/09/22 20:17:09: analyzing specific_current_mappings_cache_5_10
+v530, 2023/09/22 20:17:09: analyzing specific_subtags_fts4_cache_3_10_content
+v530, 2023/09/22 20:17:09: analyzing shape_search_cache
+v530, 2023/09/22 20:17:09: analyzing specific_integer_subtags_cache_4_9
+v530, 2023/09/22 20:17:09: analyzing specific_deleted_mappings_cache_5_10
+v530, 2023/09/22 20:17:09: analyzing specific_ac_cache_4_9
+v530, 2023/09/22 20:17:09: analyzing specific_tags_cache_4_10
+v530, 2023/09/22 20:17:09: analyzing duplicate_files
+v530, 2023/09/22 20:17:09: analyzing specific_display_ac_cache_7_9
+v530, 2023/09/22 20:17:09: analyzing notes_fts4_content
+v530, 2023/09/22 20:17:09: analyzing json_dumps
+v530, 2023/09/22 20:17:09: analyzing tag_sibling_application
+v530, 2023/09/22 20:17:09: analyzing current_files_5
+v530, 2023/09/22 20:17:09: analyzing duplicate_file_members
+v530, 2023/09/22 20:17:09: analyzing shape_perceptual_hash_map
+v530, 2023/09/22 20:17:09: analyzing current_files_6
+v530, 2023/09/22 20:17:10: analyzing specific_current_mappings_cache_6_9
+v530, 2023/09/22 20:17:10: analyzing specific_display_current_mappings_cache_6_10
+v530, 2023/09/22 20:17:10: analyzing deleted_mappings_10
+v530, 2023/09/22 20:17:10: analyzing shape_perceptual_hashes
+v530, 2023/09/22 20:17:10: analyzing notes
+v530, 2023/09/22 20:17:10: analyzing specific_display_pending_mappings_cache_7_10
+v530, 2023/09/22 20:17:10: analyzing specific_current_mappings_cache_8_10
+v530, 2023/09/22 20:17:10: analyzing url_map
+v530, 2023/09/22 20:17:10: analyzing specific_display_current_mappings_cache_7_10
+v530, 2023/09/22 20:17:10: analyzing json_dict
+v530, 2023/09/22 20:17:10: analyzing combined_files_ac_cache_10
+v530, 2023/09/22 20:17:10: analyzing recent_tags
+v530, 2023/09/22 20:17:10: analyzing statuses
+v530, 2023/09/22 20:17:10: analyzing service_directories
+v530, 2023/09/22 20:17:10: analyzing specific_ac_cache_4_10
+v530, 2023/09/22 20:17:10: analyzing petitioned_files_7
+v530, 2023/09/22 20:17:10: analyzing json_dumps_named
+v530, 2023/09/22 20:17:10: analyzing specific_display_current_mappings_cache_3_9
+v530, 2023/09/22 20:17:10: analyzing petitioned_files_6
+v530, 2023/09/22 20:17:10: analyzing specific_subtags_fts4_cache_3_9_content
+v530, 2023/09/22 20:17:10: analyzing specific_current_mappings_cache_8_9
+v530, 2023/09/22 20:17:10: analyzing texts
+v530, 2023/09/22 20:17:10: analyzing tag_parents
+v530, 2023/09/22 20:17:10: analyzing combined_files_subtags_fts4_cache_9
+v530, 2023/09/22 20:17:10: analyzing specific_deleted_mappings_cache_7_10
+v530, 2023/09/22 20:17:10: analyzing pending_files_8
+v530, 2023/09/22 20:17:10: analyzing combined_files_subtags_fts4_cache_10_segdir
+v530, 2023/09/22 20:17:10: analyzing specific_display_current_mappings_cache_3_10
+v530, 2023/09/22 20:17:10: analyzing alternate_file_groups
+v530, 2023/09/22 20:17:10: analyzing combined_files_ac_cache_9
+v530, 2023/09/22 20:17:10: analyzing specific_display_current_mappings_cache_7_9
+v530, 2023/09/22 20:17:11: analyzing pixel_hash_map
+v530, 2023/09/22 20:17:11: analyzing specific_display_ac_cache_4_10
+v530, 2023/09/22 20:17:11: analyzing specific_pending_mappings_cache_3_10
+v530, 2023/09/22 20:17:11: analyzing tag_sibling_petitions
+v530, 2023/09/22 20:17:11: analyzing specific_pending_mappings_cache_7_9
+v530, 2023/09/22 20:17:11: analyzing specific_subtags_fts4_cache_3_9_docsize
+v530, 2023/09/22 20:17:11: analyzing file_modified_timestamps
+v530, 2023/09/22 20:17:11: analyzing combined_files_tags_cache_9
+v530, 2023/09/22 20:17:11: analyzing notes_fts4_docsize
+v530, 2023/09/22 20:17:11: analyzing service_filenames
+v530, 2023/09/22 20:17:11: analyzing specific_subtags_searchable_map_cache_4_9
+v530, 2023/09/22 20:17:11: analyzing local_tags_cache
+v530, 2023/09/22 20:17:11: analyzing alternate_file_group_members
+v530, 2023/09/22 20:17:11: analyzing namespaces
+v530, 2023/09/22 20:17:11: analyzing pending_files_3
+v530, 2023/09/22 20:17:11: analyzing specific_ac_cache_7_10
+v530, 2023/09/22 20:17:11: database maintenance - analyzing
+done!
+v530, 2023/09/22 20:17:11: waiting for services to exit
+v530, 2023/09/22 20:17:11: shutting down db…
+v530, 2023/09/22 20:17:11: saving and exiting objects
+v530, 2023/09/22 20:17:13: cleaning up…
+v530, 2023/09/22 20:17:13: shutting down controller…
+v530, 2023/09/22 20:17:13: hydrus client shut down
+v530, 2023/09/28 17:53:13: hydrus client started
+v530, 2023/09/28 17:53:15: booting controller…
+v530, 2023/09/28 17:53:16: booting db…
+v530, 2023/09/28 17:53:16: checking database
+v530, 2023/09/28 17:53:16: preparing db caches
+v530, 2023/09/28 17:53:17: initialising managers
+v530, 2023/09/28 17:53:17: booting gui…
+v530, 2023/09/28 17:53:23: The import folder "import folder" encountered an exception! It has been paused!
+v530, 2023/09/28 17:53:23: Exception:
+v530, 2023/09/28 17:53:23: Exception
+Path "D:\Users\cheat\Downloads\Imports" does not seem to exist, or is not a directory.
+Traceback (most recent call last):
+  File "hydrus\client\importing\ClientImportLocal.py", line 1063, in DoWork
+Exception: Path "D:\Users\cheat\Downloads\Imports" does not seem to exist, or is not a directory.
+
+v530, 2023/09/28 17:54:18: shutting down gui…
+v530, 2023/09/28 17:54:18: waiting for managers to exit
+v530, 2023/09/28 17:54:18: waiting for workers to exit
+v530, 2023/09/28 17:54:18: waiting for idle shutdown work
+v530, 2023/09/28 17:54:18: waiting for services to exit
+v530, 2023/09/28 17:54:18: shutting down db…
+v530, 2023/09/28 17:54:18: saving and exiting objects
+v530, 2023/09/28 17:54:19: cleaning up…
+v530, 2023/09/28 17:54:20: shutting down controller…
+v530, 2023/09/28 17:54:20: hydrus client shut down
+v530, 2023/09/29 23:48:27: hydrus client started
+v530, 2023/09/29 23:48:30: booting controller…
+v530, 2023/09/29 23:48:30: booting db…
+v530, 2023/09/29 23:48:31: checking database
+v530, 2023/09/29 23:48:31: preparing db caches
+v530, 2023/09/29 23:48:31: initialising managers
+v530, 2023/09/29 23:48:31: booting gui…
+v530, 2023/09/29 23:49:45: Import folder import folder imported 1 files.
+v530, 2023/09/29 23:50:13: Import folder import folder imported 1 files.
+v530, 2023/09/29 23:50:32: shutting down gui…
+v530, 2023/09/29 23:50:32: waiting for managers to exit
+v530, 2023/09/29 23:50:32: waiting for workers to exit
+v530, 2023/09/29 23:50:32: waiting for services to exit
+v530, 2023/09/29 23:50:32: shutting down db…
+v530, 2023/09/29 23:50:32: saving and exiting objects
+v530, 2023/09/29 23:50:34: cleaning up…
+v530, 2023/09/29 23:50:34: shutting down controller…
+v530, 2023/09/29 23:50:34: hydrus client shut down
+v530, 2023/09/29 23:55:39: hydrus client started
+v530, 2023/09/29 23:55:40: booting controller…
+v530, 2023/09/29 23:55:40: booting db…
+v530, 2023/09/29 23:55:40: checking database
+v530, 2023/09/29 23:55:40: preparing db caches
+v530, 2023/09/29 23:55:40: initialising managers
+v530, 2023/09/29 23:55:40: booting gui…
+v530, 2023/09/29 23:55:44: shutting down gui…
+v530, 2023/09/29 23:55:44: waiting for managers to exit
+v530, 2023/09/29 23:55:44: waiting for workers to exit
+v530, 2023/09/29 23:55:44: waiting for services to exit
+v530, 2023/09/29 23:55:44: shutting down db…
+v530, 2023/09/29 23:55:44: saving and exiting objects
+v530, 2023/09/29 23:55:45: cleaning up…
+v530, 2023/09/29 23:55:45: shutting down controller…
+v530, 2023/09/29 23:55:45: hydrus client shut down

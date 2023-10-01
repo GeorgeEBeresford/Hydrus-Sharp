@@ -28,18 +28,20 @@ namespace HydrusSharp.Data.Repositories.DataAccess
             }
         }
 
-        public int GetMappingsCount(SearchPredicateViewModel[] filters)
+        public int GetMappingsCount(MediaCollectViewModel collect, SearchPredicateViewModel[] filters)
         {
-            string mappingsSql = PrepareAttachmentSql() +
-                PrepareCommonTableExpression(false) +
-                @", countable_results AS (
-                        SELECT *
-                        FROM current_mappings
-                        INNER JOIN filterable_tags ON filterable_tags.hash_id = current_mappings.hash_id" +
-                        GenerateFilteringSql(filters) +
-                     @" GROUP BY current_mappings.hash_id
-                ) SELECT COUNT(*) AS TotalItems FROM countable_results" +
-                PrepareDetachmentSql();
+            string mappingsSql = $@"{PrepareAttachmentSql()}
+                                    {PrepareCommonTableExpression(false, collect?.Namespaces)}
+                                    ,countable_results AS (
+                                        SELECT *
+                                        FROM current_mappings
+                                        INNER JOIN filterable_tags ON filterable_tags.hash_id = current_mappings.hash_id
+                                        {(collect.Namespaces != null && collect.Namespaces.Any() ? "INNER JOIN groupable_tags ON groupable_tags.hash_id = current_mappings.hash_id" : "")}
+                                        {GenerateFilteringSql(filters)}
+                                        GROUP BY current_mappings.hash_id
+                                    )
+                                    SELECT COUNT(*) AS TotalItems FROM countable_results
+                                    {PrepareDetachmentSql()}";
 
             DbRow mappingRow;
             using (DbContext dbContext = new DbContext(ConnectionStringService.GetConnectionString("ClientMappings")))
@@ -61,17 +63,19 @@ namespace HydrusSharp.Data.Repositories.DataAccess
 
         public IEnumerable<CurrentMapping> GetMatchingMappings(MediaCollectViewModel collect, MediaSortViewModel sort, SearchPredicateViewModel[] filters, int skip, int take)
         {
-            string mappingsSql = PrepareAttachmentSql() +
-                PrepareCommonTableExpression(false) +
-                @"SELECT current_mappings.*
+            string mappingsSql =
+                $@"{PrepareAttachmentSql()}
+                  {PrepareCommonTableExpression(false, collect.Namespaces)}
+                  SELECT current_mappings.*
                   FROM current_mappings
                   INNER JOIN client.files_info ON files_info.hash_id = current_mappings.hash_id
-                  INNER JOIN filterable_tags ON filterable_tags.hash_id = current_mappings.hash_id" +
-                  GenerateFilteringSql(filters) +
-                  GenerateSortingSql(sort) +
-                  " GROUP BY current_mappings.hash_id" +
-                  $" LIMIT {take} OFFSET {skip}" +
-                  PrepareDetachmentSql();
+                  INNER JOIN filterable_tags ON filterable_tags.hash_id = current_mappings.hash_id
+                  {(collect.Namespaces != null && collect.Namespaces.Any() ? "INNER JOIN groupable_tags ON groupable_tags.hash_id = current_mappings.hash_id" : "")}
+                  {GenerateFilteringSql(filters)}
+                  GROUP BY current_mappings.hash_id
+                  {GenerateSortingSql(sort)}
+                  LIMIT {take} OFFSET {skip}
+                  {PrepareDetachmentSql()}";
 
             IEnumerable<DbRow> mappingRows;
             using (DbContext dbContext = new DbContext(ConnectionStringService.GetConnectionString("ClientMappings")))
@@ -126,7 +130,7 @@ namespace HydrusSharp.Data.Repositories.DataAccess
             }
         }
 
-        private string PrepareCommonTableExpression(bool includeDeletedFiles)
+        private string PrepareCommonTableExpression(bool includeDeletedFiles, IEnumerable<string> groupByNamespace)
         {
             // Todo - Filters should eventually specify which services to retrieve from
             List<int> searchedFileServices = new List<int> {
@@ -142,10 +146,10 @@ namespace HydrusSharp.Data.Repositories.DataAccess
                 searchedFileServices.Add(3); // all deleted files service
             }
 
-            IEnumerable<string> searchedCurrentFilesSqls = searchedFileServices.Select(serviceId => $"SELECT *, {serviceId} AS file_service_id FROM current_files_{serviceId}");
+            IEnumerable<string> searchedCurrentFilesSqls = searchedFileServices.Select(serviceId => $"SELECT current_files_{serviceId}.hash_id, {serviceId} AS file_service_id FROM current_files_{serviceId}");
 
             // Filter out any deleted files
-            IEnumerable<string> searchedMappingsSqls = searchedTagServices.Select(serviceId => $"SELECT *, {serviceId} AS tag_service_id FROM current_mappings_{serviceId} INNER JOIN current_files ON current_mappings_{serviceId}.hash_id = current_files.hash_id");
+            IEnumerable<string> searchedMappingsSqls = searchedTagServices.Select(serviceId => $"SELECT current_mappings_{serviceId}.hash_id, current_mappings_{serviceId}.tag_id, {serviceId} AS tag_service_id FROM current_mappings_{serviceId} INNER JOIN current_files ON current_mappings_{serviceId}.hash_id = current_files.hash_id");
 
             string sql = $@"; WITH
                                 current_files AS (
@@ -165,23 +169,45 @@ namespace HydrusSharp.Data.Repositories.DataAccess
                                 tags_with_ancestors AS (
 	                                SELECT
 		                                tag_id,
-		                                parent_tag_id
+		                                parent_tag_id,
+		                                coalesce(tags_with_parents.parent_tag_id, tags_with_parents.tag_id) AS any_tag_id
 	                                FROM tags_with_parents
 	                                UNION ALL
 	                                SELECT
 		                                tags_with_parents.tag_id,
-		                                tags_with_ancestors.parent_tag_id
+		                                tags_with_ancestors.parent_tag_id,
+		                                coalesce(tags_with_ancestors.parent_tag_id, tags_with_parents.tag_id) AS any_tag_id
 	                                FROM tags_with_ancestors
 	                                JOIN tags_with_parents ON tags_with_ancestors.tag_id = tags_with_parents.parent_tag_id
-                                ),
-                                filterable_tags AS (
-                                    SELECT
-	                                    current_mappings.hash_id,
-		                                '|' || GROUP_CONCAT(tags_with_ancestors.tag_id , '|') || '|' || COALESCE(GROUP_CONCAT(tags_with_ancestors.parent_tag_id , '|'), '') || '|' as flattened_tags
-                                    FROM current_mappings
-                                    INNER JOIN tags_with_ancestors ON tags_with_ancestors.tag_id = current_mappings.tag_id
-                                    GROUP BY current_mappings.hash_id
+                                )
+                                ,filterable_tags AS (
+	                                SELECT
+		                                current_mappings.hash_id,
+		                                '|' || GROUP_CONCAT(tags_with_ancestors.any_tag_id , '|') || '|' as flattened_tags
+	                                FROM current_mappings
+	                                INNER JOIN tags_with_ancestors ON tags_with_ancestors.tag_id = current_mappings.tag_id
+	                                GROUP BY current_mappings.hash_id
                                 )";
+
+            if (groupByNamespace != null && groupByNamespace.Any())
+            {
+                sql += $@",groupable_tags AS (
+	                        SELECT hash_id
+	                        FROM (
+		                        select
+			                        current_mappings.hash_id
+			                        ,'|' || GROUP_CONCAT(tags_with_ancestors.any_tag_id , '|') || '|' as flattened_tags
+		                        from current_mappings
+		                        INNER JOIN tags_with_ancestors ON tags_with_ancestors.tag_id = current_mappings.tag_id
+		                        INNER JOIN tags ON tags.tag_id = tags_with_ancestors.any_tag_id
+		                        INNER JOIN namespaces ON namespaces.namespace_id = tags.namespace_id
+		                        INNER JOIN subtags ON subtags.subtag_id = tags.subtag_id
+		                        WHERE namespaces.namespace IN ('{string.Join("', '", groupByNamespace)}')
+		                        GROUP BY current_mappings.hash_id
+	                        )
+	                        GROUP BY flattened_tags
+                        )";
+            }
 
             return sql;
         }

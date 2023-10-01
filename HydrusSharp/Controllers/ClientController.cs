@@ -66,7 +66,7 @@ namespace HydrusSharp.Controllers
 
             IEnumerable<CurrentMapping> matchingMappings = mappingRepository.GetMatchingMappings(collect, sort, filters, skip, take);
             IEnumerable<FileInfo> fileInfos = fileRepository.GetFileInfos(matchingMappings.Select(mapping => mapping.HashId));
-            int totalCount = mappingRepository.GetMappingsCount(filters);
+            int totalCount = mappingRepository.GetMappingsCount(collect, filters);
 
             PaginatedResultViewModel paginatedResults = new PaginatedResultViewModel
             {

@@ -9,23 +9,29 @@ namespace HydrusSharp.Tests.HydrusSharp.Services
     [TestClass]
     public class OptionServiceTest
     {
-        private IOptionRepository OptionRepository {  get; set; }
         private OptionService OptionService { get; set; }
 
         public OptionServiceTest()
         {
-            OptionRepository = new DAOptionRepository();
             OptionService = new OptionService();
         }
 
         [TestMethod]
-        public void GetOption()
+        public void GetSingleValueOption()
         {
-            OptionCollection optionCollection = OptionRepository.GetOptions();
+            IOptionRepository optionRepository = new DAOptionRepository();
+            OptionCollection optionCollection = optionRepository.GetOptions();
 
             string deleteToRecycleBin = OptionService.GetValue(optionCollection, "delete_to_recycle_bin");
             Assert.IsNotNull(deleteToRecycleBin, "deleteToRecycleBin is null");
             Assert.IsTrue(deleteToRecycleBin == "false" || deleteToRecycleBin == "true", $"deleteToRecycleBin does not match expected output. Actual output: '{deleteToRecycleBin}'");
+        }
+
+        [TestMethod]
+        public void GetMultipleValueOption()
+        {
+            IOptionRepository optionRepository = new DAOptionRepository();
+            OptionCollection optionCollection = optionRepository.GetOptions();
 
             string dimensions = OptionService.GetValue(optionCollection, "thumbnail_dimensions");
             Assert.IsNotNull(dimensions, "dimensions is null");
