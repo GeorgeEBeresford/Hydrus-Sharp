@@ -81,17 +81,7 @@ namespace HydrusSharp.Controllers
                     Duration = fileInfo.Duration,
                     FrameCount = fileInfo.FrameCount,
                     HasAudio = fileInfo.HasAudio,
-                    Tags = new TagViewModel[0] // Disabling until I find a much cleaner way to handle this. It's dragging performance down
-
-                    //Tags = matchingMappings
-                    //    .Select(map => tagRepository.GetTags().First(tag => tag.TagId == map.TagId))
-                    //    .Select(tag => new TagViewModel
-                    //    {
-                    //        TagId = tag.TagId,
-                    //        NamespaceId = tag.NamespaceId,
-                    //        SubTagId = tag.SubtagId
-                    //    })
-                    //    .ToArray()
+                    Tags = matchingMappings.First(mapping => mapping.HashId == fileInfo.HashId).Tags.ToArray()
                 })
                 .ToArray()
             };

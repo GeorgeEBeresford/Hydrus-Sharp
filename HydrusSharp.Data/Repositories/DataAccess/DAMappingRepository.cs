@@ -66,7 +66,7 @@ namespace HydrusSharp.Data.Repositories.DataAccess
             string mappingsSql =
                 $@"{PrepareAttachmentSql()}
                   {PrepareCommonTableExpression(false, collect.Namespaces)}
-                  SELECT current_mappings.*
+                  SELECT current_mappings.*, filterable_tags.flattened_tags_friendly
                   FROM current_mappings
                   INNER JOIN client.files_info ON files_info.hash_id = current_mappings.hash_id
                   INNER JOIN filterable_tags ON filterable_tags.hash_id = current_mappings.hash_id
@@ -96,7 +96,8 @@ namespace HydrusSharp.Data.Repositories.DataAccess
                 .Select(row => new CurrentMapping
                 {
                     HashId = Convert.ToInt32(row.GetColumnValue("hash_id")),
-                    TagId = Convert.ToInt32(row.GetColumnValue("tag_id"))
+                    TagId = Convert.ToInt32(row.GetColumnValue("tag_id")),
+                    Tags = Convert.ToString(row.GetColumnValue("flattened_tags_friendly")).Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries),
                 });
         }
 
@@ -183,9 +184,13 @@ namespace HydrusSharp.Data.Repositories.DataAccess
                                 ,filterable_tags AS (
 	                                SELECT
 		                                current_mappings.hash_id,
-		                                '|' || GROUP_CONCAT(tags_with_ancestors.any_tag_id , '|') || '|' as flattened_tags
+		                                '|' || GROUP_CONCAT(tags_with_ancestors.any_tag_id , '|') || '|' as flattened_tags,
+		                                '|' || GROUP_CONCAT(CASE WHEN namespaces.namespace != '' THEN namespaces.namespace || ':' || subtags.subtag ELSE subtags.subtag END, '|') || '|' as flattened_tags_friendly
 	                                FROM current_mappings
 	                                INNER JOIN tags_with_ancestors ON tags_with_ancestors.tag_id = current_mappings.tag_id
+									INNER JOIN tags ON tags.tag_id = tags_with_ancestors.any_tag_id
+									LEFT JOIN namespaces ON namespaces.namespace_id = tags.namespace_id
+									LEFT JOIN subtags ON subtags.subtag_id = tags.subtag_id
 	                                GROUP BY current_mappings.hash_id
                                 )";
 

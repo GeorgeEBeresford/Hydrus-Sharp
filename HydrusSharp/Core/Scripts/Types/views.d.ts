@@ -32,7 +32,7 @@ interface IFileInfo {
     FrameCount: number;
     HasAudio: boolean;
     WordCount: number;
-    Tags: Array<ITag>;
+    Tags: Array<string>;
 }
 
 interface ITag {

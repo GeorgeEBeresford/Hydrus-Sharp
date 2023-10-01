@@ -130,12 +130,6 @@
     <Compile Include="Repositories\DataAccess\DAMappingRepository.cs" />
     <Compile Include="Repositories\DataAccess\DAOptionRepository.cs" />
     <Compile Include="Repositories\DataAccess\DATagRepository.cs" />
-    <Compile Include="Repositories\EntityFramework\EFFileRepository.cs" />
-    <Compile Include="Repositories\EntityFramework\EFHashRepository.cs" />
-    <Compile Include="Repositories\EntityFramework\EFJsonDumpRepository.cs" />
-    <Compile Include="Repositories\EntityFramework\EFMappingRepository.cs" />
-    <Compile Include="Repositories\EntityFramework\EFOptionRepository.cs" />
-    <Compile Include="Repositories\EntityFramework\EFTagRepository.cs" />
     <Compile Include="Repositories\IFileRepository.cs" />
     <Compile Include="Repositories\IJsonDumpRepository.cs" />
     <Compile Include="Repositories\IMappingRepository.cs" />

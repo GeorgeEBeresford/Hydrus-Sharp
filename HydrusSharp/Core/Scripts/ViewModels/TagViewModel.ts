@@ -1,21 +1,37 @@
+/**
+ * Represents a single tag
+ */
 class TagViewModel {
 
-    private tagId: ko.Observable<number>;
+    /**
+     * The full tag
+     */
+    public tag: ko.Observable<string>;
 
-    private namespaceId: ko.Observable<number>;
+    /**
+     * The namespace of the tag
+     */
+    public namespace: ko.Observable<string>;
 
-    private namespace: ko.Observable<string>;
-
-    public subTagId: ko.Observable<number>;
-
+    /**
+     * The subtag of the tag
+     */
     public subTag: ko.Observable<string>;
 
-    public constructor(view: ITag) {
+    /**
+     * Creates a new TagViewModel
+     * @param tag
+     */
+    public constructor(tag: string) {
 
-        this.tagId = ko.observable(view.TagId);
-        this.namespaceId = ko.observable(view.NamespaceId);
-        this.namespace = ko.observable(view.Namespace);
-        this.subTagId = ko.observable(view.SubTagId);
-        this.subTag = ko.observable(view.SubTag);
+        this.tag = ko.observable(tag);
+
+        // Tag may have multiple ":"s and we're only interested in splitting on the first instance
+        const splitLocation = tag.indexOf(":");
+        const namespace = tag.substring(0, splitLocation);
+        const subtag = tag.substring(splitLocation + 1);
+
+        this.namespace = ko.observable(namespace);
+        this.subTag = ko.observable(subtag);
     }
 }

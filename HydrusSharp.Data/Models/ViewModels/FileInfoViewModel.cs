@@ -12,6 +12,6 @@ namespace HydrusSharp.Data.Models.ViewModels
         public int? Duration { get; set; }
         public int? FrameCount { get; set; }
         public bool HasAudio { get; set; }
-        public TagViewModel[] Tags { get; set; }
+        public string[] Tags { get; set; }
     }
 }

@@ -1,10 +1,11 @@
 var TagViewModel = (function () {
-    function TagViewModel(view) {
-        this.tagId = ko.observable(view.TagId);
-        this.namespaceId = ko.observable(view.NamespaceId);
-        this.namespace = ko.observable(view.Namespace);
-        this.subTagId = ko.observable(view.SubTagId);
-        this.subTag = ko.observable(view.SubTag);
+    function TagViewModel(tag) {
+        this.tag = ko.observable(tag);
+        var splitLocation = tag.indexOf(":");
+        var namespace = tag.substring(0, splitLocation);
+        var subtag = tag.substring(splitLocation + 1);
+        this.namespace = ko.observable(namespace);
+        this.subTag = ko.observable(subtag);
     }
     return TagViewModel;
 }());
