@@ -11,10 +11,13 @@ var Index = (function () {
         this.filesPerPage = ko.observable(20);
         this.selectedPage = ko.observable(1);
         this.loadingFiles = ko.observable(false);
+        this.numberOfPages = ko.computed(function () { return Math.ceil(_this.numberOfFiles() / _this.filesPerPage()); });
         this.selectablePages = ko.computed(function () {
-            var numberOfPages = Math.ceil(_this.numberOfFiles() / _this.filesPerPage());
             var selectablePages = [];
-            for (var index = 1; index <= numberOfPages; index++) {
+            var startOfPages = Math.max(_this.selectedPage() - 4, 1);
+            var extraPages = Math.max(5 - startOfPages, 0);
+            var endOfPages = Math.min(_this.selectedPage() + 5 + extraPages, _this.numberOfPages());
+            for (var index = startOfPages; index <= endOfPages; index++) {
                 selectablePages.push(index);
             }
             return selectablePages;

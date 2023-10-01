@@ -105,11 +105,17 @@
         </div>
         <nav aria-label="Search result pages">
             <ol class="pagination">
+                <li data-bind="visible: $root.numberOfPages() !== 0" class="page-item">
+                    <a class="page-link" data-bind="text: 'First', click: () => { $root.selectedPage(1); }, attr: { href: 1 !== $root.selectedPage() ? '#' : null }"></a>
+                </li>
                 <!-- ko foreach: selectablePages -->
                 <li data-bind="attr: { class: $data !== $root.selectedPage() ? 'page-item' : 'page-item active' }" class="page-item">
-                    <a class="page-link" data-bind="text: $data, click: () => { $root.selectedPage($data); }, attr: { href: $data !== $root.selectedPage() ? '#' : null }" href="#"></a>
+                    <a class="page-link" data-bind="text: $data, click: () => { $root.selectedPage($data); }, attr: { href: $data !== $root.selectedPage() ? '#' : null }"></a>
                 </li>
                 <!-- /ko -->
+                <li data-bind="visible: $root.numberOfPages() !== 0" class="page-item">
+                    <a class="page-link" data-bind="text: 'Last', click: () => { $root.selectedPage($root.numberOfPages()); }, attr: { href: $root.numberOfPages() !== $root.selectedPage() ? '#' : null }"></a>
+                </li>
             </ol>
         </nav>
     </section>

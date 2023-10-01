@@ -9,6 +9,7 @@ class Index {
     public numberOfFiles: ko.Observable<number>;
     public filesPerPage: ko.Observable<number>;
     public selectedPage: ko.Observable<number>;
+    public numberOfPages: ko.Computed<number>;
     public selectablePages: ko.Computed<Array<number>>;
     public loadingFiles: ko.Observable<boolean>;
 
@@ -24,12 +25,22 @@ class Index {
         this.filesPerPage = ko.observable(20);
         this.selectedPage = ko.observable(1);
         this.loadingFiles = ko.observable(false);
+        this.numberOfPages = ko.computed(() => Math.ceil(this.numberOfFiles() / this.filesPerPage()));
+
         this.selectablePages = ko.computed(() => {
 
-            const numberOfPages = Math.ceil(this.numberOfFiles() / this.filesPerPage());
-
             const selectablePages = [];
-            for (let index = 1; index <= numberOfPages; index++) {
+
+            // We only want to display the previous 4 pages at most
+            const startOfPages = Math.max(this.selectedPage() - 4, 1);
+
+            // If we're viewing pages 1 - 4, we want to make up the difference by displaying more pages at the end
+            const extraPages = Math.max(5 - startOfPages, 0);
+
+            // We only want to display the next 5 pages at most (plus any extra pages)
+            const endOfPages = Math.min(this.selectedPage() + 5 + extraPages, this.numberOfPages());
+
+            for (let index = startOfPages; index <= endOfPages; index++) {
 
                 selectablePages.push(index);
             }
